@@ -1,8 +1,8 @@
 var countries = [
-    {
-        "name": "United States"
-    },
-    {
-        "name": "China"
-    }
-]
+	{
+		"name": "United States"
+	},
+	{
+		"name": "China"
+	}
+];
