@@ -8,6 +8,11 @@
 		<script src="countries.js"></script>
 	</head>
 	<body>
-		<input @keyup.enter="login" v-model="username" />
+		<div v-if="player.status === 'stranger'">
+			<input @keyup.enter="login" v-model="player.name" />
+		</div>
+		<div v-if="player.status === 'connected'">
+			<p>Welcome, President {{ player.name }}!</p>
+		</div>
 	</body>
 </html>

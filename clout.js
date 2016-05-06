@@ -3,31 +3,29 @@ var vue;
 var clout = {
 	el: "body",
 	data: {
-		username: "",
-		playing: false
+		player: {
+			name: "",
+			status: "stranger"
+		}
 	},
 	methods: {
 		login: function() {
-			if(this.playing) {
-				alert("You're already playing!");
+			if (this.player.status === "connected") {
 				return;
 			}
-
-			db = new Firebase("https://apesclout.firebaseio.com/users/")
-
+			
+			db = new Firebase("https://cloutgame.firebaseio.com/users/");
+			
 			db.once("value", function(ref) {
-
-				if(ref.child(clout.data.username + "/country").exists()) {
-					alert(clout.data.username + " is already in use");
+				if (ref.child(clout.data.player.name + "/country").exists()) {
+					alert(clout.data.player.name + " is already in use");
 					return;
 				}
-
-				db.child(clout.data.username + "/country").set(1);
-				alert("Welcome, President " + clout.data.username + "!");
-
-				db.child(clout.data.username).onDisconnect().remove();
-
-				clout.data.playing = true;
+				
+				db.child(clout.data.player.name + "/country").set(1);
+				db.child(clout.data.player.name).onDisconnect().remove();
+				
+				clout.data.player.status = "connected";
 			});
 		}
 	}
