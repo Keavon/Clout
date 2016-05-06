@@ -13,7 +13,7 @@ var clout = {
 				return;
 			}
 
-			db = new Firebase("https://apesclout.firebaseio.com/users/")
+			db = new Firebase("https://apesclout.firebaseio.com/users/");
 
 			db.once("value", function(ref) {
 
