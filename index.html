@@ -2,16 +2,32 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="vue.js"></script>
 		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 		<script src="clout.js"></script>
 		<script src="countries.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:500,400,300,300italic,400italic,500italic,700,700italic,100,100italic" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-		<div v-if="player.status === 'stranger'">
-			<input @keyup.enter="login" v-model="player.name" />
+		<div v-if="player.status === 'stranger'" class="login">
+			<div></div>
+			<div class="title">
+				<h1>Clout</h1>
+				<h2>A multiplayer strategy game of <br />global economics and power</h2>
+			</div>
+			<div></div>
+			<div class="name">
+				<form @submit.prevent="login">
+					<label>Welcome, world leader!</label>
+					<input type="text" maxlength="25" v-model="player.name" placeholder="What's your name?" />
+					<input type="submit" value="Play">
+				</form>
+			</div>
+			<div></div>
 		</div>
-		<div v-if="player.status === 'connected'">
+		<div v-if="player.status === 'connected'" class="game">
 			<p>Welcome, President {{ player.name }}!</p>
 		</div>
 	</body>
