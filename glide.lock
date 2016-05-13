@@ -1,0 +1,53 @@
+hash: 9474c9d73c9f5299373df9ada1c5a9d98cf33d56ef3ef6f52b14d9f89528cf31
+updated: 2016-05-12T21:29:08.255177065-07:00
+imports:
+- name: github.com/dgrijalva/jwt-go
+  version: 40bd0f3b4891a9d7f121bfb7b8e8b0525625e262
+- name: github.com/klauspost/compress
+  version: 14eb9c4951195779ecfbec34431a976de7335b0a
+  subpackages:
+  - flate
+- name: github.com/klauspost/cpuid
+  version: 09cded8978dc9e80714c4d85b0322337b0a1e5e0
+- name: github.com/klauspost/crc32
+  version: 19b0b332c9e4516a6370a0456e6182c3b5036720
+- name: github.com/labstack/echo
+  version: 1aa22ce09bc19fa8dd551736b2a6ddf67464f3c7
+  subpackages:
+  - engine/standard
+  - engine
+- name: github.com/labstack/gommon
+  version: b5f03e345acd2096591b6f738cb8d2b9b3231c50
+  subpackages:
+  - color
+  - log
+- name: github.com/mattn/go-colorable
+  version: e8a10ddc7d2a7fe255f6fd7f501070a4cb62c183
+- name: github.com/mattn/go-isatty
+  version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+- name: github.com/stretchr/testify
+  version: 6cb3b85ef5a0efef77caef88363ec4d4b5c0976d
+  subpackages:
+  - assert
+- name: github.com/valyala/fasthttp
+  version: ecba84a7fe001c29e69a8c7550b40f1c684e0113
+- name: github.com/valyala/fasttemplate
+  version: 3b874956e03f1636d171bda64b130f9135f42cff
+- name: golang.org/x/crypto
+  version: 1e61df8d9ea476e2e1504cd9a32b40280c7c6c7e
+  subpackages:
+  - ssh/terminal
+- name: golang.org/x/net
+  version: 96dbb961a39ddccf16860cdd355bfa639c497f23
+  subpackages:
+  - context
+  - websocket
+- name: golang.org/x/sys
+  version: e82cb4d7dffc35bcec7bc8bf9e402377e0ecf3f4
+  subpackages:
+  - unix
+- name: golang.org/x/text
+  version: f773ec03ce334298742df7f3108fc0d402646d22
+  subpackages:
+  - encoding
+devImports: []

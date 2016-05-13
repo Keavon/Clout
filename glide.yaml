@@ -1,0 +1,28 @@
+package: github.com/keavon/clout
+import:
+  - package: github.com/labstack/echo
+  - package: github.com/labstack/gommon
+    subpackages:
+      - color
+      - log
+  - package: github.com/valyala/fasthttp
+  - package: golang.org/x/net
+    subpackages:
+      - context
+      - websocket
+  - package: github.com/valyala/fasttemplate
+  - package: github.com/stretchr/testify
+    subpackages:
+      - assert
+  - package: github.com/dgrijalva/jwt-go
+  - package: github.com/klauspost/compress
+    subpackages:
+      - flate
+  - package: github.com/klauspost/cpuid
+  - package: github.com/klauspost/crc32
+  - package: golang.org/x/text
+    subpackages:
+      - encoding
+  - package: golang.org/x/crypto
+    subpackages:
+        - ssh/terminal

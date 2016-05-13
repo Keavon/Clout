@@ -1,0 +1,9 @@
+{
+  "name": "Clout",
+  "description": "A multiplayer strategy game of global economics and power",
+  "image": "heroku/go:1.6",
+  "mount_dir": "src/github.com/keavon/clout",
+  "addons": [
+    "heroku-redis"
+  ]
+}
