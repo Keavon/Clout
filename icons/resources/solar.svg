@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" viewBox="0 0 1000 1000" xml:space="preserve">
+	<circle fill="#FFFFFF" cx="500" cy="500" r="475"/>
+	<path d="M500,0C223.9,0,0,223.9,0,500s223.9,500,500,500s500-223.9,500-500S776.1,0,500,0z M500,940
+	C257,940,60,743,60,500S257,60,500,60s440,197,440,440S743,940,500,940z"/>
+	<circle cx="500" cy="500" r="155.6"/>
+	<rect x="490" y="694" width="20" height="156"/>
+	<rect x="490" y="150" width="20" height="156"/>
+	<rect x="694" y="490" width="156" height="20"/>
+	<rect x="150" y="490" width="156" height="20"/>
+	<rect x="682.3" y="614.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -286.7737 692.3331)" width="20" height="156"/>
+	<rect x="297.7" y="229.7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -127.4398 307.667)" width="20" height="156"/>
+	<rect x="614.3" y="297.7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -14.7737 579.6669)" width="156" height="20"/>
+	<rect x="229.7" y="682.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -399.4398 420.333)" width="156" height="20"/>
+</svg>

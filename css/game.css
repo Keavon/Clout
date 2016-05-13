@@ -1,0 +1,293 @@
+.game {
+	margin: 0;
+	padding: 0 8px;
+	height: 100%;
+	color: #fff;
+}
+
+.game .country img {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 16px;
+	height: 30px;
+}
+
+.game .country h1 {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 36px;
+	line-height: 1;
+}
+
+.game .economy .money {
+	font-size: 36px;
+}
+
+.game .resource {
+	font-size: 0;
+	display: flex;
+}
+
+.game .resource .buy {
+	width: 96px;
+	height: 96px;
+	display: inline-block;
+	border-radius: 50%;
+	margin-right: 8px;
+	vertical-align: top;
+	position: relative;
+	flex: 0 0 auto;
+}
+
+.game .resource .buy img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+}
+
+.game .resource .buy span {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 90px;
+	margin: auto;
+	width: 68px;
+	padding-right: 4px;
+	border-radius: 0 8px 8px 0;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.75);
+	height: 28px;
+	line-height: 28px;
+	font-size: 18px;
+	text-align: right;
+	color: #fff;
+	background: #000;
+	z-index: 1;
+}
+
+.game .resource .info {
+	height: 96px;
+	max-width: 300px;
+	color: #000;
+	background: #fff;
+	display: inline-block;
+	position: relative;
+	flex: 1 1 auto;
+}
+
+.game .resource .cutout-top {
+	height: 16px;
+}
+
+.game .resource .cutout-middle {
+	height: 64px;
+	top: 16px;
+}
+
+.game .resource .cutout-bottom {
+	height: 16px;
+	top: 80px;
+}
+
+.game .resource .cutout-top,
+.game .resource .cutout-middle,
+.game .resource .cutout-bottom {
+	width: 50px;
+	left: -48px;
+	position: absolute;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.game .resource .cutout-top::before,
+.game .resource .cutout-middle::before,
+.game .resource .cutout-bottom::before {
+	content: "";
+	display: block;
+	width: 112px;
+	height: 112px;
+	background: transparent;
+	border-radius: 50%;
+	position: absolute;
+	left: -100px;
+}
+
+.game .resource .cutout-top::before {
+	border: 36px solid #cc2936;
+	top: -44px;
+}
+
+.game .resource .cutout-middle::before {
+	border: 36px solid #fff;
+	top: -60px;
+}
+
+.game .resource .cutout-bottom::before {
+	border: 36px solid #388697;
+	top: -124px;
+}
+
+.game .resource .cutout-bottom.zero::before {
+	border: 36px solid #cc2936;
+}
+
+.game .resource .info .name {
+	width: 100%;
+	height: 16px;
+	color: #fff;
+	background: #cc2936;
+	position: relative;
+}
+
+.game .resource .info .name > div {
+	position: absolute;
+	left: -10px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.game .resource .info .name span {
+	font-size: 14px;
+	line-height: 16px;
+	text-transform: uppercase;
+}
+
+.game .resource .info .main {
+	width: 100%;
+	height: 64px;
+	background: #fff;
+	position: relative;
+}
+
+.game .resource .info .main .details {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 58px;
+	right: 0;
+	display: flex;
+}
+
+.game .resource .info .main .details .individual,
+.game .resource .info .main .details .fleet {
+	color: #000;
+	flex: 1 1 auto;
+}
+
+.game .resource .info .main .details .divider {
+	width: 2px;
+	background: #cc2936;
+	flex: 0 0 2px;
+}
+
+.game .resource .info .main .details .individual {
+	text-align: right;
+	position: relative;
+}
+
+.game .resource .info .main .details .fleet {
+	text-align: left;
+}
+
+.game .resource .info .main .details h1 {
+	display: block;
+	font-size: 12px;
+	line-height: 16px;
+	margin: 0 4px;
+}
+
+.game .resource .info .main .details .individual h1 {
+	position: absolute;
+	white-space: nowrap;
+	right: 0;
+	top: 0;
+}
+
+.game .resource .info .main .details span {
+	display: block;
+	font-size: 18px;
+	line-height: 24px;
+	margin: 0 4px;
+}
+
+.game .resource .info .main .details .individual span:first-of-type {
+	margin-top: 16px;
+	margin-bottom: 24px;
+}
+
+.game .resource .info .main .details .individual span:last-of-type {
+	position: absolute;
+	white-space: nowrap;
+	right: 0;
+	bottom: 0;
+}
+
+.game .resource .info .capacity {
+	width: 100%;
+	height: 16px;
+	position: relative;
+}
+
+.game .resource .info .capacity > div {
+	position: absolute;
+	left: -10px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: #cc2936;
+}
+
+.game .resource .info .capacity > div .owned {
+	background: #388697;
+	position: absolute;
+	left: 0;
+	right: 50%;
+	top: 0;
+	bottom: 0;
+}
+
+.game .resource .info .capacity > div .owned span {
+	font-size: 14px;
+	line-height: 16px;
+	text-indent: 2px;
+	color: #fff;
+}
+
+.game .resource .info .capacity > div .capacity {
+	font-size: 14px;
+	line-height: 16px;
+	color: #fff;
+	position: absolute;
+	right: 2px;
+	width: auto;
+}
+
+input[type=range] {
+	position: absolute;
+	width: calc(100% + 16px);
+	background: none;
+	height: 24px;
+	left: -8px;
+	bottom: -8px;
+	margin: 0;
+	-webkit-appearance: none;
+	outline: none;
+	/*background: rgba(127, 127, 0, 0.5);*/
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+	height: 16px;
+	width: 16px;
+	border-radius: 50%;
+	background: #ebbab9;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+	-webkit-appearance: none;
+	margin-top: -4px;
+}
+
+/* Remember to add and test support for other browsers! */

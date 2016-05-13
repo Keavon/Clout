@@ -1,0 +1,79 @@
+.login {
+	margin: 0;
+	padding: 0 24px;
+	height: 100%;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+}
+
+.login div {
+	min-height: 16px;
+	flex: 1 0 auto;
+}
+
+.login h1 {
+	font-weight: 700;
+	font-size: 72px;
+	margin: 0;
+}
+
+@media (max-width: 375px) {
+	.login h2 br {
+		display: none;
+	}
+}
+
+.login h2 {
+	font-weight: normal;
+	font-size: 24px;
+	margin: 0;
+}
+
+.login .name form {
+	display: inline-block;
+	width: 100%;
+	max-width: 500px;
+}
+
+.login .name label {
+	display: block;
+	font-size: 24px;
+	font-weight: 200;
+	font-style: italic;
+	width: 100%;
+}
+
+.login .name input[type="text"] {
+	display: block;
+	text-align: center;
+	font-size: 24px;
+	font-family: "Alegreya Sans SC", serif;
+	font-weight: 200;
+	background: none;
+	border: none;
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+	border-color: #84a0ae;
+	color: #fff;
+	padding: 0;
+	margin: 24px 0;
+	outline: none;
+	line-height: 200%;
+	width: 100%;
+}
+
+.login .name input[type="submit"] {
+	display: block;
+	width: 100%;
+	font-size: 24px;
+	background: #cc2936;
+	color: #fff;
+	line-height: 200%;
+	font-family: "Alegreya Sans SC", serif;
+	font-weight: 200;
+	border: none;
+	outline: none;
+	border-radius: 2px;
+	padding: 0;
+}
