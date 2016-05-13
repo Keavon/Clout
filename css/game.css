@@ -310,6 +310,7 @@ input[type=range]::-webkit-slider-thumb {
 	width: 16px;
 	border-radius: 50%;
 	background: #ebbab9;
+	background-image: url("../icons/handle.svg");
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 	-webkit-appearance: none;
 	margin-top: -4px;
