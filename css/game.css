@@ -24,9 +24,21 @@
 	font-family: "Open Sans Condensed", Arial, sans-serif;
 }
 
+.game .resources {
+	max-width: 880px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: auto;
+}
+
 .game .resource {
 	font-size: 0;
 	display: flex;
+	max-width: 400px;
+	min-width: 272px;
+	flex: 1 1 100%;
+	margin: 16px auto;
 }
 
 .game .resource .buy {
@@ -69,8 +81,6 @@
 
 .game .resource .info {
 	height: 96px;
-	max-width: 300px;
-	min-width: 160px;
 	color: #000;
 	background: #fff;
 	display: inline-block;
