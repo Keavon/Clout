@@ -1,8 +1,22 @@
-hash: 9474c9d73c9f5299373df9ada1c5a9d98cf33d56ef3ef6f52b14d9f89528cf31
-updated: 2016-05-12T21:29:08.255177065-07:00
+hash: c9ac25c21bb9aeafa11171c966db6dc263a5fa606d22d41dd8310ee06e5c2a8f
+updated: 2016-05-14T20:07:05.932845216-07:00
 imports:
 - name: github.com/dgrijalva/jwt-go
   version: 40bd0f3b4891a9d7f121bfb7b8e8b0525625e262
+- name: github.com/garyburd/redigo
+  version: 8873b2f1995f59d4bcdd2b0dc9858e2cb9bf0c13
+  subpackages:
+  - redis
+  - internal
+- name: github.com/keavon/clout
+  version: 4b9c4183da9049c8a881c49fa087fe49f14629cd
+  subpackages:
+  - pkg/api
+  - pkg/pool
+  - pkg/country
+  - pkg/game
+  - pkg/player
+  - pkg/token
 - name: github.com/klauspost/compress
   version: 14eb9c4951195779ecfbec34431a976de7335b0a
   subpackages:
@@ -12,15 +26,17 @@ imports:
 - name: github.com/klauspost/crc32
   version: 19b0b332c9e4516a6370a0456e6182c3b5036720
 - name: github.com/labstack/echo
-  version: 1aa22ce09bc19fa8dd551736b2a6ddf67464f3c7
+  version: 52a5dcf3cf5d0c4f35e6ed1ea78128662a3d9338
   subpackages:
   - engine/standard
+  - middleware
   - engine
 - name: github.com/labstack/gommon
   version: b5f03e345acd2096591b6f738cb8d2b9b3231c50
   subpackages:
   - color
   - log
+  - bytes
 - name: github.com/mattn/go-colorable
   version: e8a10ddc7d2a7fe255f6fd7f501070a4cb62c183
 - name: github.com/mattn/go-isatty
@@ -38,16 +54,18 @@ imports:
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: 96dbb961a39ddccf16860cdd355bfa639c497f23
+  version: 58b2fb074ec0cc06e95f2409a11ff51dd11798e2
   subpackages:
   - context
   - websocket
 - name: golang.org/x/sys
-  version: e82cb4d7dffc35bcec7bc8bf9e402377e0ecf3f4
+  version: 33267e036fd93fcd26ea95b7bdaf2d8306cb743c
   subpackages:
   - unix
 - name: golang.org/x/text
   version: f773ec03ce334298742df7f3108fc0d402646d22
   subpackages:
   - encoding
+- name: gopkg.in/bsm/ratelimit.v1
+  version: db14e161995a5177acef654cb0dd785e8ee8bc22
 devImports: []
