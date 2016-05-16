@@ -288,7 +288,7 @@
 	width: auto;
 }
 
-input[type=range] {
+.game .resources .resource .owned input[type=range] {
 	position: absolute;
 	width: calc(100% + 16px);
 	background: none;
@@ -301,16 +301,17 @@ input[type=range] {
 	/*background: rgba(127, 127, 0, 0.5);*/
 }
 
-input[type=range]::-webkit-slider-runnable-track {
+.game .resources .resource .owned input[type=range]::-webkit-slider-runnable-track {
 	width: 100%;
 	height: 0;
 }
-input[type=range]::-webkit-slider-thumb {
+
+.game .resources .resource .owned input[type=range]::-webkit-slider-thumb {
 	height: 16px;
 	width: 16px;
+	background: #fff;
 	border-radius: 50%;
-	background: #ebbab9;
-	background-image: url("../icons/handle.svg");
+	border: 6px solid #ebbab9;
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 	-webkit-appearance: none;
 	margin-top: -4px;
