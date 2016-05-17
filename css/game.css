@@ -2,47 +2,95 @@
 	margin: 0;
 	height: 100%;
 	color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
+.game > div {
+	max-width: 880px;
+	display: flex;
+	width: 100%;
+	padding: 0 24px;
+	box-sizing: border-box;
+}
 .game .country {
-	margin: 0 8px;
+	flex: none;
+	margin: 8px 0;
+}
+
+.game .country .name {
+	flex: none;
+	text-align: left;
+	font-size: 0;
+	white-space: nowrap;
+}
+
+.game .country .name img {
+	display: inline-block;
+	vertical-align: middle;
+	height: 36px;
+	padding: 4px 0;
+}
+
+.game .country .name h1 {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 40px;
+	line-height: 44px;
+	margin: 0 16px;
+}
+
+.game .country .spacer {
+	flex: auto;
+}
+
+.game .country .rank .ranking {
+	display: block;
+	font-size: 24px;
+	line-height: 34px;
+	font-family: "Open Sans Condensed", Arial, sans-serif;
+	width: 36px;
+	height: 36px;
+	border: 4px solid #fff;
+	border-radius: 50%;
+	flex: none;
 }
 
 .game .economy {
-	margin: 0 8px;
-}
-
-.game .country img {
-	display: inline-block;
-	vertical-align: middle;
-	margin-right: 16px;
-	height: 30px;
-}
-
-.game .country h1 {
-	display: inline-block;
-	vertical-align: middle;
-	font-size: 36px;
-	line-height: 1;
-}
-
-.game .economy .money {
-	font-size: 36px;
+	flex: none;
+	font-size: 24px;
 	font-family: "Open Sans Condensed", Arial, sans-serif;
 }
 
+.game .economy .money {
+	flex: none;
+	text-align: center;
+}
+
+.game .economy .money .plus {
+	margin: 0 16px;
+}
+
+.game .economy .spacer {
+	flex: auto;
+}
+
+.game .economy .environment {
+	flex: none;
+	text-align: center;
+}
+
 .game .resources {
-	max-width: 880px;
-	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	margin: auto;
+	padding: 0;
 }
 
 .game .resource {
 	font-size: 0;
 	display: flex;
-	max-width: 400px;
+	max-width: 408px;
 	min-width: 272px;
 	flex: 1 1 100%;
 	margin: 16px auto;
@@ -56,7 +104,7 @@
 	margin: 0 8px;
 	vertical-align: top;
 	position: relative;
-	flex: 0 0 auto;
+	flex: none;
 }
 
 .game .resource .buy img {
@@ -76,8 +124,8 @@
 	padding-right: 4px;
 	border-radius: 0 8px 8px 0;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.75);
-	height: 28px;
-	line-height: 28px;
+	height: 24px;
+	line-height: 24px;
 	font-size: 18px;
 	text-align: right;
 	color: #fff;
@@ -92,7 +140,7 @@
 	background: #fff;
 	display: inline-block;
 	position: relative;
-	flex: 1 1 auto;
+	flex: auto;
 	margin-right: 8px;
 }
 
@@ -195,7 +243,7 @@
 .game .resource .info .main .details .fleet {
 	font-family: "Open Sans Condensed", Arial, sans-serif;
 	color: #000;
-	flex: 1 1 auto;
+	flex: auto;
 }
 
 .game .resource .info .main .details .divider {

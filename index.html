@@ -29,11 +29,27 @@
 		</div>
 		<div v-if="player.status === 'connected'" class="game">
 			<div class="country">
-				<img src="icons/flags/us.svg">
-				<h1>United States</h1>
+				<div class="name">
+					<img src="icons/flags/us.svg">
+					<h1>United States</h1>
+				</div>
+				<div class="spacer"></div>
+				<div class="rank">
+					<span class="ranking">#29</span>
+				</div>
 			</div>
 			<div class="economy">
-				<span class="money">$16.36b + 693.9m/yr</span>
+				<div class="money">
+					<span class="bank">$16.36b</span>
+					<span class="plus">+</span>
+					<span class="income">693.9m/yr</span>
+				</div>
+				<div class="spacer"></div>
+				<div class="environment">
+					<span>751k</span>
+				</div>
+				<!-- Environmental Damage -->
+				<!-- Energy Demand -->
 			</div>
 			<div class="resources">
 				<div class="resource" v-for="item in [0, 1, 2, 3, 4, 5]">
