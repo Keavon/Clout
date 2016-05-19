@@ -12,11 +12,11 @@
 	display: flex;
 	width: 100%;
 	padding: 0 24px;
+	margin: 8px 0;
 	box-sizing: border-box;
 }
 .game .country {
 	flex: none;
-	margin: 8px 0;
 }
 
 .game .country .name {
@@ -81,6 +81,54 @@
 	text-align: center;
 }
 
+.game .energy .outline {
+	background: #fff;
+	width: 100%;
+	height: 32px;
+	padding: 1px;
+	border-radius: 4px;
+}
+
+.game .energy .bar {
+	width: 100%;
+	height: 32px;
+	background: #898c6e;
+	position: relative;
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.game .energy .bar div {
+	right: 0;
+	height: 100%;
+	width: 10%;
+	position: absolute;
+}
+
+.game .energy .bar span {
+	font-family: "Open Sans Condensed", Arial, sans-serif;
+	line-height: 32px;
+	font-size: 24px;
+	margin: 0 8px;
+	position: absolute;
+}
+
+.game .energy .bar span:first-of-type {
+	left: 0;
+}
+
+.game .energy .bar span:last-of-type {
+	right: 0;
+}
+
+.game .energy .bar .excess {
+	background: #089200;
+}
+
+.game .energy .bar .deficit {
+	background: #cc2936;
+}
+
 .game .resources {
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -122,8 +170,7 @@
 	margin: auto;
 	width: 68px;
 	padding-right: 4px;
-	border-radius: 0 8px 8px 0;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.75);
+	border-radius: 0 4px 4px 0;
 	height: 24px;
 	line-height: 24px;
 	font-size: 18px;

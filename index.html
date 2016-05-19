@@ -49,8 +49,15 @@
 				<div class="environment">
 					<span>751k</span>
 				</div>
-				<!-- Environmental Damage -->
-				<!-- Energy Demand -->
+			</div>
+			<div class="energy">
+				<div class="outline">
+					<div class="bar">
+						<div :class="'deficit'"></div>
+						<span>80 GW met of 90 GW demand</span>
+						<span>-10 GW</span>
+					</div>
+				</div>
 			</div>
 			<div class="resources">
 				<div class="resource" v-for="item in [0, 1, 2, 3, 4, 5]">
