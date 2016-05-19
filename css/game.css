@@ -349,12 +349,19 @@
 }
 
 .game .resource .info .capacity > div .owned {
-	background: #388697;
 	position: absolute;
+	background: #898c6e;
 	left: 0;
-	right: 50%;
-	top: 0;
-	bottom: 0;
+	height: 100%;
+	width: 50%;
+}
+
+.game .resource .info .capacity > div .owned .operational {
+	position: absolute;
+	background: #388697;
+	height: 100%;
+	left: 0;
+	width: 50%;
 }
 
 .game .resource .info .capacity > div .owned span {
