@@ -15,6 +15,13 @@
 	margin: 8px 0;
 	box-sizing: border-box;
 }
+
+@media (max-width: 408px) {
+	.game > div {
+		padding: 0 8px;
+	}
+}
+
 .game .country {
 	flex: none;
 }
@@ -100,9 +107,24 @@
 .game .energy .bar span {
 	font-family: "Open Sans Condensed", Arial, sans-serif;
 	line-height: 32px;
-	font-size: 24px;
+	font-size: 22px;
 	margin: 0 8px;
 	position: absolute;
+}
+
+@media (max-width: 480px) {
+	.game .country .name img {
+		height: 28px;
+		padding: 8px 0;
+	}
+
+	.game .country .name h1 {
+		font-size: 28px;
+	}
+	
+	.game .energy .bar span {
+		font-size: 18px;
+	}
 }
 
 .game .energy .bar span:first-of-type {
@@ -302,7 +324,7 @@
 
 .game .resource .info .main .details h1 {
 	display: block;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 16px;
 	margin: 0 4px;
 }
@@ -316,7 +338,7 @@
 
 .game .resource .info .main .details span {
 	display: block;
-	font-size: 16px;
+	font-size: 18px;
 	line-height: 24px;
 	margin: 0 4px;
 }
