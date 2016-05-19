@@ -89,27 +89,42 @@
 }
 
 .game .energy .bar {
+	font-size: 0;
 	width: 100%;
 	height: 32px;
-	background: #898c6e;
-	position: relative;
 	border-radius: 4px;
+	background: #898c6e;
 	overflow: hidden;
+	text-align: right;
+	white-space: nowrap;
 }
 
 .game .energy .bar div {
-	right: 0;
 	height: 100%;
-	width: 10%;
-	position: absolute;
+	text-align: center;
+	white-space: nowrap;
+	display: inline-block;
 }
 
-.game .energy .bar span {
+.game .energy .bar div:last-child {
+	direction: rtl;
+}
+
+.game .energy .bar div span {
 	font-family: "Open Sans Condensed", Arial, sans-serif;
 	line-height: 32px;
 	font-size: 22px;
 	margin: 0 8px;
-	position: absolute;
+	display: inline-block;
+	direction: ltr;
+}
+
+.game .energy .bar .excess {
+	background: #089200;
+}
+
+.game .energy .bar .deficit {
+	background: #cc2936;
 }
 
 @media (max-width: 480px) {
@@ -125,22 +140,6 @@
 	.game .energy .bar span {
 		font-size: 18px;
 	}
-}
-
-.game .energy .bar span:first-of-type {
-	left: 0;
-}
-
-.game .energy .bar span:last-of-type {
-	right: 0;
-}
-
-.game .energy .bar .excess {
-	background: #089200;
-}
-
-.game .energy .bar .deficit {
-	background: #cc2936;
 }
 
 .game .resources {

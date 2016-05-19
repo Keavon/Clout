@@ -52,13 +52,16 @@
 			</div>
 			<div class="energy">
 				<div class="bar">
-					<div :class="'deficit'"></div>
-					<span>80 GW met of 90 GW demand</span>
-					<span>-10 GW</span>
+					<div :style="'width: 70%'">
+						<span>80 GW met of 90 GW demand</span>
+					</div>
+					<div :style="'width: 30%'" :class="'deficit'">
+						<span>-10 GW</span>
+					</div>
 				</div>
 			</div>
 			<div class="resources">
-				<div class="resource" v-for="item in [0, 1, 2, 3, 4, 5]">
+				<div class="resource" v-for="item in [0, 1, 2, 3, 4, 5, 6, 7]">
 					<a href="#" class="buy">
 						<img src="icons/resources/oil.svg" />
 						<span>$188.9m</span>
