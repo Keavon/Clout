@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 
+	"github.com/keavon/clout/pkg/authorization"
 	"github.com/keavon/clout/pkg/country"
 	"github.com/keavon/clout/pkg/game"
 	"github.com/keavon/clout/pkg/token"
@@ -22,7 +23,7 @@ type createResponse struct {
 }
 
 // Create creates a new game
-func (a API) Create(c echo.Context) error {
+func (api API) Create(c echo.Context) error {
 	req := new(createRequest)
 	if err := c.Bind(req); err != nil {
 		return err
@@ -41,15 +42,18 @@ func (a API) Create(c echo.Context) error {
 	g := game.New(gameid)
 
 	// Create new player
-	token, err := token.Token()
+	playerID, err := token.Token()
 	if err != nil {
 		return err
 	}
 
-	player := g.NewPlayer(token, req.Username, true)
+	player, err := g.NewPlayer(playerID, req.Username, true)
+	if err != nil {
+		return err
+	}
 
 	// Get a connection to the redis pool
-	rc := a.Pool.Get()
+	rc := api.Pool.Get()
 	defer rc.Close()
 
 	// Save game and player to redis
@@ -60,6 +64,20 @@ func (a API) Create(c echo.Context) error {
 	}
 
 	err = player.Save(rc)
+
+	if err != nil {
+		return err
+	}
+
+	// Create authorization for player
+	token, err := token.Token()
+	if err != nil {
+		return err
+	}
+	auth := authorization.New(token, g, player)
+
+	// Save authorization to redis
+	err = auth.Save(rc)
 
 	if err != nil {
 		return err

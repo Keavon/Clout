@@ -1,5 +1,5 @@
 hash: c9ac25c21bb9aeafa11171c966db6dc263a5fa606d22d41dd8310ee06e5c2a8f
-updated: 2016-05-14T20:07:05.932845216-07:00
+updated: 2016-05-19T20:49:27.287579863-07:00
 imports:
 - name: github.com/dgrijalva/jwt-go
   version: 40bd0f3b4891a9d7f121bfb7b8e8b0525625e262
@@ -9,14 +9,15 @@ imports:
   - redis
   - internal
 - name: github.com/keavon/clout
-  version: 4b9c4183da9049c8a881c49fa087fe49f14629cd
+  version: 82994fa000d6b9bd82fdda90f04cda8e4fdbb52b
   subpackages:
   - pkg/api
   - pkg/pool
+  - pkg/authorization
   - pkg/country
   - pkg/game
-  - pkg/player
   - pkg/token
+  - pkg/player
 - name: github.com/klauspost/compress
   version: 14eb9c4951195779ecfbec34431a976de7335b0a
   subpackages:
@@ -26,7 +27,7 @@ imports:
 - name: github.com/klauspost/crc32
   version: 19b0b332c9e4516a6370a0456e6182c3b5036720
 - name: github.com/labstack/echo
-  version: 52a5dcf3cf5d0c4f35e6ed1ea78128662a3d9338
+  version: 795ab0ad7791d7dd36aa1877b70a62e899441b47
   subpackages:
   - engine/standard
   - middleware
@@ -46,20 +47,20 @@ imports:
   subpackages:
   - assert
 - name: github.com/valyala/fasthttp
-  version: ecba84a7fe001c29e69a8c7550b40f1c684e0113
+  version: e40caade415cbe3e53f14e9d8ba6ec2368e4458f
 - name: github.com/valyala/fasttemplate
   version: 3b874956e03f1636d171bda64b130f9135f42cff
 - name: golang.org/x/crypto
-  version: 1e61df8d9ea476e2e1504cd9a32b40280c7c6c7e
+  version: 5bcd134fee4dd1475da17714aac19c0aa0142e2f
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: 58b2fb074ec0cc06e95f2409a11ff51dd11798e2
+  version: 8a52c78636f6b7be1b1e5cb58b01a85f1e082659
   subpackages:
   - context
   - websocket
 - name: golang.org/x/sys
-  version: 33267e036fd93fcd26ea95b7bdaf2d8306cb743c
+  version: d4feaf1a7e61e1d9e79e6c4e76c6349e9cab0a03
   subpackages:
   - unix
 - name: golang.org/x/text

@@ -1,6 +1,7 @@
 package game
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"time"
@@ -12,6 +13,9 @@ import (
 
 // expiration is the time until the redis object will expire if unused
 const expration = 5 * time.Minute
+
+// ErrFull is an error returned when there is no room left in game
+var ErrFull = errors.New("No room left in game")
 
 // Game defines the structure of the game object
 type Game struct {
@@ -91,7 +95,7 @@ func New(ID string) Game {
 }
 
 // NewPlayer adds a new player to a game
-func (g *Game) NewPlayer(ID string, name string, admin bool) player.Player {
+func (g *Game) NewPlayer(ID string, name string, admin bool) (player.Player, error) {
 	player := player.Player{ID: ID, Name: name, Admin: admin}
 
 	// Select a country that are not already in use
@@ -118,10 +122,14 @@ func (g *Game) NewPlayer(ID string, name string, admin bool) player.Player {
 		}
 	}
 
+	if len(countries) == 0 {
+		return player, ErrFull
+	}
+
 	// Seed the RNG
 	rand.Seed(time.Now().UnixNano())
 	// Select a country from the array of remaining countries.
 	player.Country = country.Countries[countries[rand.Intn(len(countries))]]
 	player.Money = player.Country.InitialMoney
-	return player
+	return player, nil
 }

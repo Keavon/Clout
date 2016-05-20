@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/keavon/clout/pkg/api"
@@ -17,6 +18,9 @@ func main() {
 
 	e := echo.New()
 
+	// Uncomment to start debug mode
+	//e.SetDebug(true)
+
 	// Configure middleware
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
@@ -25,6 +29,11 @@ func main() {
 
 	// Serve index page
 	e.File("/", "index.html")
+
+	e.GET("/test", func(c echo.Context) error {
+		c.Logger().Printf("%s", "Hello World TEST!")
+		return c.String(http.StatusOK, "Hello, World!")
+	})
 
 	e.POST("/api/create", a.Create)
 	e.POST("/api/join", a.Join)

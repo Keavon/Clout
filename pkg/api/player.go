@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/garyburd/redigo/redis"
-	"github.com/keavon/clout/pkg/player"
+	"github.com/keavon/clout/pkg/authorization"
 	"github.com/labstack/echo"
 )
 
 // Player gets information about current player
-func (a API) Player(c echo.Context) error {
+func (api API) Player(c echo.Context) error {
 	token := c.Request().Header().Get("Authorization")
 
 	if token == "" {
@@ -17,10 +17,10 @@ func (a API) Player(c echo.Context) error {
 	}
 
 	// Get a connection to the redis pool
-	rc := a.Pool.Get()
+	rc := api.Pool.Get()
 	defer rc.Close()
 
-	p, err := player.Load(rc, token)
+	auth, err := authorization.Load(rc, token)
 	if err != nil {
 		if err == redis.ErrNil {
 			return invalidTokenError(c)
@@ -29,10 +29,20 @@ func (a API) Player(c echo.Context) error {
 		return err
 	}
 
-	err = p.Touch(rc)
+	err = auth.Touch(rc)
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, p)
+	err = auth.Player.Touch(rc)
+	if err != nil {
+		return err
+	}
+
+	err = auth.Game.Touch(rc)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, auth.Player)
 }

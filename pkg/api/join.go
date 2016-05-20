@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/garyburd/redigo/redis"
+	"github.com/keavon/clout/pkg/authorization"
 	"github.com/keavon/clout/pkg/country"
 	"github.com/keavon/clout/pkg/game"
 	"github.com/keavon/clout/pkg/token"
@@ -23,7 +24,7 @@ type joinResponse struct {
 }
 
 // Join joins an existing game
-func (a API) Join(c echo.Context) error {
+func (api API) Join(c echo.Context) error {
 	req := new(joinRequest)
 	if err := c.Bind(req); err != nil {
 		return err
@@ -38,7 +39,7 @@ func (a API) Join(c echo.Context) error {
 	}
 
 	// Get a connection to the redis pool
-	rc := a.Pool.Get()
+	rc := api.Pool.Get()
 	defer rc.Close()
 
 	g, err := game.Load(rc, req.GameID)
@@ -51,12 +52,19 @@ func (a API) Join(c echo.Context) error {
 	}
 
 	// Create new player
-	token, err := token.Token()
+	playerID, err := token.Token()
 	if err != nil {
 		return err
 	}
 
-	player := g.NewPlayer(token, req.Username, false)
+	player, err := g.NewPlayer(playerID, req.Username, false)
+	if err != nil {
+		if err == game.ErrFull {
+			return gameFullError(c)
+		}
+
+		return err
+	}
 
 	// Save game and player to redis
 	err = g.Save(rc)
@@ -66,6 +74,20 @@ func (a API) Join(c echo.Context) error {
 	}
 
 	err = player.Save(rc)
+
+	if err != nil {
+		return err
+	}
+
+	// Create authorization for player
+	token, err := token.Token()
+	if err != nil {
+		return err
+	}
+	auth := authorization.New(token, g, player)
+
+	// Save authorization to redis
+	err = auth.Save(rc)
 
 	if err != nil {
 		return err
