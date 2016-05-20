@@ -168,7 +168,7 @@
 	flex: none;
 }
 
-.game .resource .buy img {
+.game .resource .buy svg {
 	position: absolute;
 	left: 0;
 	top: 0;
