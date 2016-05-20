@@ -122,5 +122,6 @@ func (g *Game) NewPlayer(ID string, name string, admin bool) player.Player {
 	rand.Seed(time.Now().UnixNano())
 	// Select a country from the array of remaining countries.
 	player.Country = country.Countries[countries[rand.Intn(len(countries))]]
+	player.Money = player.Country.InitialMoney
 	return player
 }

@@ -15,6 +15,7 @@ type Player struct {
 	ID      string          `json:"-"`
 	Name    string          `json:"name"`
 	Admin   bool            `json:"admin"`
+	Money   int             `json:"money"`
 	Country country.Country `json:"country"`
 }
 
@@ -27,6 +28,7 @@ func Load(rc redis.Conn, ID string) (Player, error) {
 	p := Player{ID: ID}
 	rc.Send("GET", p.key())
 	rc.Send("GET", p.key()+":admin")
+	rc.Send("GET", p.key()+":money")
 	rc.Send("GET", p.key()+":country")
 	rc.Flush()
 
@@ -41,6 +43,12 @@ func Load(rc redis.Conn, ID string) (Player, error) {
 		return p, err
 	}
 	p.Admin = admin
+
+	money, err := redis.Int(rc.Receive())
+	if err != nil {
+		return p, err
+	}
+	p.Money = money
 
 	countryID, err := redis.Int(rc.Receive())
 	if err != nil {
@@ -61,6 +69,7 @@ func (p Player) Save(rc redis.Conn) error {
 	rc.Send("MULTI")
 	rc.Send("SET", p.key(), p.Name)
 	rc.Send("SET", p.key()+":admin", p.Admin)
+	rc.Send("SET", p.key()+":money", p.Money)
 	rc.Send("SET", p.key()+":country", p.Country.ID)
 
 	if _, err := rc.Do("EXEC"); err != nil {
@@ -75,6 +84,7 @@ func (p Player) Touch(rc redis.Conn) error {
 	rc.Send("MULTI")
 	rc.Send("EXPIRE", p.key(), expration.Seconds())
 	rc.Send("EXPIRE", p.key()+":admin", expration.Seconds())
+	rc.Send("EXPIRE", p.key()+":money", expration.Seconds())
 	rc.Send("EXPIRE", p.key()+":country", expration.Seconds())
 	_, err := rc.Do("EXEC")
 	return err
