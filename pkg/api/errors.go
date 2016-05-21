@@ -23,5 +23,5 @@ func invalidGameIDError(c echo.Context) error {
 }
 
 func gameFullError(c echo.Context) error {
-	return c.JSON(http.StatusBadRequest, errorCode{ErrorID: 3})
+	return c.JSON(http.StatusGone, errorCode{ErrorID: 3})
 }

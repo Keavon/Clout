@@ -105,9 +105,13 @@ func (g *Game) NewPlayer(ID string, name string, admin bool) (player.Player, err
 		countries = append(countries, i)
 	}
 
+	fmt.Printf("Before: %v\n", countries)
+	fmt.Printf("Players: %v\n", g.Players)
+
 	// Loop through players and remove countries that have been chosen
 	for _, player := range g.Players {
 		for i, country := range countries {
+			fmt.Printf("Player Country: %d, Loop Country: %d\n", player.Country.ID, country)
 			if player.Country.ID == country {
 				if i == 0 {
 					countries = countries[1:]
@@ -126,10 +130,16 @@ func (g *Game) NewPlayer(ID string, name string, admin bool) (player.Player, err
 		return player, ErrFull
 	}
 
+	fmt.Printf("After: %v\n", countries)
+
 	// Seed the RNG
 	rand.Seed(time.Now().UnixNano())
 	// Select a country from the array of remaining countries.
 	player.Country = country.Countries[countries[rand.Intn(len(countries))]]
 	player.Money = player.Country.InitialMoney
+
+	// Add player to game
+	g.Players = append(g.Players, player)
+
 	return player, nil
 }
