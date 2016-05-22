@@ -23,5 +23,17 @@ func invalidGameIDError(c echo.Context) error {
 }
 
 func gameFullError(c echo.Context) error {
-	return c.JSON(http.StatusGone, errorCode{ErrorID: 3})
+	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 3})
+}
+
+func invalidResourceError(c echo.Context) error {
+	return c.JSON(http.StatusBadRequest, errorCode{ErrorID: 4})
+}
+
+func costExceededError(c echo.Context) error {
+	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 5})
+}
+
+func capacityError(c echo.Context) error {
+	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 6})
 }

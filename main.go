@@ -19,7 +19,7 @@ func main() {
 	e := echo.New()
 
 	// Uncomment to start debug mode
-	//e.SetDebug(true)
+	e.SetDebug(true)
 
 	// Configure middleware
 	e.Pre(middleware.RemoveTrailingSlash())
@@ -37,7 +37,8 @@ func main() {
 
 	e.POST("/api/create", a.Create)
 	e.POST("/api/join", a.Join)
-	e.GET("/api/player", a.Player)
+	e.GET("/api/player", a.Player, a.Auth())
+	e.POST("/api/purchase/:id", a.Purchase, a.Auth())
 
 	// Serve static assets from files
 	e.Static("/css", "css")

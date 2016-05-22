@@ -12,7 +12,7 @@ import (
 )
 
 // expiration is the time until the redis object will expire if unused
-const expration = 5 * time.Minute
+const expiration = 5 * time.Minute
 
 // ErrFull is an error returned when there is no room left in game
 var ErrFull = errors.New("No room left in game")
@@ -31,20 +31,28 @@ func (g Game) key() string {
 // Load game from redis
 func Load(rc redis.Conn, ID string) (Game, error) {
 	g := Game{ID: ID}
-	rc.Send("GET", g.key())
-	rc.Send("SMEMBERS", g.key()+":players")
-	rc.Flush()
+	//rc.Send("GET", g.key())
+	//rc.Send("SMEMBERS", g.key()+":players")
+	//rc.Flush()
 
-	status, err := redis.Int(rc.Receive())
+	fmt.Println("_________> In game")
+
+	status, err := redis.Int(rc.Do("GET", g.key()))
 	if err != nil {
+		fmt.Println("///////////> Status error")
+		fmt.Println()
 		return g, err
 	}
 	g.Status = status
 
-	players, err := redis.Values(rc.Receive())
+	fmt.Println(">>>>>>>>>>> After Status")
+
+	players, err := redis.Values(rc.Do("SMEMBERS", g.key()+":players"))
 	if err != nil {
 		return g, err
 	}
+
+	fmt.Println("~~~~~~~~> Started player load")
 
 	playerIDs := []string{}
 	if err := redis.ScanSlice(players, &playerIDs); err != nil {
@@ -83,15 +91,15 @@ func (g Game) Save(rc redis.Conn) error {
 // Touch updates the TTL of the game to keep it from expiring
 func (g Game) Touch(rc redis.Conn) error {
 	rc.Send("MULTI")
-	rc.Send("EXPIRE", g.key(), expration.Seconds())
-	rc.Send("EXPIRE", g.key()+":players", expration.Seconds())
+	rc.Send("EXPIRE", g.key(), expiration.Seconds())
+	rc.Send("EXPIRE", g.key()+":players", expiration.Seconds())
 	_, err := rc.Do("EXEC")
 	return err
 }
 
 // New creates a new game
 func New(ID string) Game {
-	return Game{ID: ID}
+	return Game{ID: ID, Status: 0}
 }
 
 // NewPlayer adds a new player to a game
@@ -105,13 +113,10 @@ func (g *Game) NewPlayer(ID string, name string, admin bool) (player.Player, err
 		countries = append(countries, i)
 	}
 
-	fmt.Printf("Before: %v\n", countries)
-	fmt.Printf("Players: %v\n", g.Players)
-
 	// Loop through players and remove countries that have been chosen
 	for _, player := range g.Players {
 		for i, country := range countries {
-			fmt.Printf("Player Country: %d, Loop Country: %d\n", player.Country.ID, country)
+
 			if player.Country.ID == country {
 				if i == 0 {
 					countries = countries[1:]
@@ -129,8 +134,6 @@ func (g *Game) NewPlayer(ID string, name string, admin bool) (player.Player, err
 	if len(countries) == 0 {
 		return player, ErrFull
 	}
-
-	fmt.Printf("After: %v\n", countries)
 
 	// Seed the RNG
 	rand.Seed(time.Now().UnixNano())

@@ -73,3 +73,15 @@
   }
 }
 ```
+
+### Purchase One Installation
+
+- `GET /api/purchase/<resource id>`
+
+#### Request
+
+- Headers: `Authorization: <token>`
+
+#### Response
+
+- Code: `200 OK`
