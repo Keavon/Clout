@@ -96,7 +96,7 @@
 								<div class="owned" :style="'width: ' + (resource.capacity >= 0 ? resource.owned / resource.capacity * 100 : 100) + '%'">
 									<div class="operational" :style="'width: ' + 100 * resource.operating / resource.owned + '%'" v-if="resource.capacity >= 0"></div>
 									<span>{{ resource.owned }}</span>
-									<input type="range" min="0" :max="resource.owned" v-model="resource.operating" v-if="resource.capacity > 0">
+									<input type="range" min="0" :max="resource.owned" v-model="resource.operating" v-if="resource.capacity > 0 && resource.owned > 0">
 								</div>
 								<div class="capacity" v-if="resource.capacity > 0">{{ resource.capacity }}</div>
 							</div>
