@@ -3,16 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="http://cdn.jsdelivr.net/vue/1.0.24/vue.js"></script>
-		<!-- <script src="http://cdn.jsdelivr.net/vue/1.0.24/vue.min.js"></script> -->
+		<script src="//cdn.jsdelivr.net/vue/1.0.24/vue.js"></script>
+		<!-- <script src="//cdn.jsdelivr.net/vue/1.0.24/vue.min.js"></script> -->
 		<script src="js/clout.js"></script>
 		<link href="css/global.css" rel="stylesheet" type="text/css">
 		<link href="css/login.css" rel="stylesheet" type="text/css">
 		<link href="css/game.css" rel="stylesheet" type="text/css">
-		<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:500,400,300,300italic,400italic,500italic,700,700italic,100,100italic|Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+		<link href="//fonts.googleapis.com/css?family=Alegreya+Sans+SC:500,400,300,300italic,400italic,500italic,700,700italic,100,100italic|Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-		<div v-if="player.status === 'stranger'" class="login">
+		<div v-if="connection.status === 'stranger' || connection.status === 'connecting'" class="login">
 			<div></div>
 			<div class="title">
 				<h1>Clout</h1>
@@ -22,28 +22,29 @@
 			<div class="name">
 				<form @submit.prevent="login">
 					<label>Welcome, world leader!</label>
-					<input type="text" maxlength="25" v-model="player.name" placeholder="What's your name?">
-					<input type="submit" value="Play">
+					<input type="tel" maxlength="4" required v-model="connection.room" placeholder="Room Code" :disabled="connection.status === 'connecting'">
+					<input type="text" maxlength="25" required v-model="connection.name" placeholder="Name" :disabled="connection.status === 'connecting'">
+					<input type="submit" value="Play" :disabled="connection.status === 'connecting'">
 				</form>
 			</div>
 			<div></div>
 		</div>
-		<div v-if="player.status === 'connected'" class="game">
+		<div v-if="connection.status === 'connected'" class="game">
 			<div class="country">
 				<div class="name">
-					<img src="icons/flags/us.svg">
-					<h1>United States</h1>
+					<img :src="'icons/flags/' + country.icon + '.svg'">
+					<h1>{{ country.name }}</h1>
 				</div>
 				<div class="spacer"></div>
 				<div class="rank">
-					<span class="ranking">#29</span>
+					<span class="ranking">#{{ country.rank }}</span>
 				</div>
 			</div>
 			<div class="economy">
 				<div class="money">
-					<span class="bank">$16.36b</span>
+					<span class="bank">{{ country.money | formatMoney }}</span>
 					<span class="plus">+</span>
-					<span class="income">693.9m/yr</span>
+					<span class="income">{{ income | formatMoney }}/yr</span>
 				</div>
 				<div class="spacer"></div>
 				<div class="environment">
@@ -52,24 +53,24 @@
 			</div>
 			<div class="energy">
 				<div class="bar">
-					<div :style="'width: 70%'">
-						<span>80 GW met of 90 GW demand</span>
+					<div :style="'width: ' + energy.base">
+						<span>{{ production }} GW met of {{ country.demand }} GW demand</span>
 					</div>
-					<div :style="'width: 30%'" :class="'deficit'">
-						<span>-10 GW</span>
+					<div :style="'width: ' + energy.extra" :class="energy.direction">
+						<span>{{ energy.difference > 0 ? '+' + energy.difference + ' GW' : (energy.difference < 0 ? energy.difference + ' GW' : '') }}</span>
 					</div>
 				</div>
 			</div>
 			<div class="resources">
 				<div class="resource" v-for="resource in resources">
-					<a href="#" class="buy">
-						<svg viewBox="0 0 1000 1000">{{{ resource.icon }}}</svg>
-						<span>$188.9m</span>
-					</a>
+					<div class="buy" :class="{ 'disabled': resource.capacity === 0 || resource.cost > country.money }">
+						<svg viewBox="0 0 1000 1000">{{{ resource.icon }}}<circle class="click" cx="500" cy="500" r="500" @click.prevent="buy($index)" /></svg>
+						<span>{{ resource.cost | formatMoney }}</span>
+					</div>
 					<div class="info">
 						<div class="cutout-top"></div>
 						<div class="cutout-middle"></div>
-						<div class="cutout-bottom"></div>
+						<div class="cutout-bottom" :class="{ 'unlimited': resource.capacity < 0, 'zero': resource.capacity === 0 }"></div>
 						<div class="name">
 							<div>
 								<span>{{ resource.name }} (1 GW Power Stations)</span>
@@ -79,25 +80,25 @@
 							<div class="details">
 								<div class="individual">
 									<h1>Per-Station Stats</h1>
-									<span>137/yr</span>
-									<span>$12.7m/yr</span>
+									<span>{{ resource.damage }}/yr</span>
+									<span>{{ resource.revenue | formatMoney }}/yr</span>
 								</div>
 								<div class="divider"></div>
 								<div class="fleet">
 									<h1>Fleet Stats</h1>
-									<span>6850/yr</span>
-									<span>$635m/yr</span>
+									<span>{{ resource.damage * resource.operating }}/yr</span>
+									<span>{{ resource.revenue * resource.operating | formatMoney }}/yr</span>
 								</div>
 							</div>
 						</div>
 						<div class="capacity">
-							<div>
-								<div class="owned">
-									<div class="operational"></div>
-									<span>50</span>
-									<input type="range" min="0" max="50" value="25">
+							<div :class="{ 'unlimited': resource.capacity < 0, 'zero': resource.capacity === 0 }">
+								<div class="owned" :style="'width: ' + (resource.capacity >= 0 ? resource.owned / resource.capacity * 100 : 100) + '%'">
+									<div class="operational" :style="'width: ' + 100 * resource.operating / resource.owned + '%'" v-if="resource.capacity >= 0"></div>
+									<span>{{ resource.owned }}</span>
+									<input type="range" min="0" :max="resource.owned" v-model="resource.operating" v-if="resource.capacity > 0">
 								</div>
-								<div class="capacity">100</div>
+								<div class="capacity" v-if="resource.capacity > 0">{{ resource.capacity }}</div>
 							</div>
 						</div>
 					</div>

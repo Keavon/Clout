@@ -44,7 +44,8 @@
 	width: 100%;
 }
 
-.login .name input[type="text"] {
+.login .name input[type="text"],
+.login .name input[type="tel"] {
 	display: block;
 	text-align: center;
 	font-size: 24px;
@@ -63,6 +64,15 @@
 	width: 100%;
 }
 
+.login .name input[type="text"] {
+	border-top: none;
+	margin-top: 0;
+}
+
+.login .name input[type="tel"] {
+	margin-bottom: 0;
+}
+
 .login .name input[type="submit"] {
 	display: block;
 	width: 100%;
@@ -76,4 +86,8 @@
 	outline: none;
 	border-radius: 2px;
 	padding: 0;
+}
+
+.login .name input[type="submit"]:disabled {
+	background: #a53941;
 }
