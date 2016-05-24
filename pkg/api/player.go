@@ -11,5 +11,5 @@ import (
 func (api API) Player(c echo.Context) error {
 	auth := c.Get("auth").(authorization.Authorization)
 
-	return c.JSON(http.StatusOK, auth.Player)
+	return c.JSON(http.StatusOK, auth)
 }

@@ -13,9 +13,9 @@ const expration = 2 * time.Minute
 
 // Authorization defines the structure of the auth object
 type Authorization struct {
-	ID     string
-	Game   game.Game
-	Player player.Player
+	ID     string        `json:"-"`
+	Game   game.Game     `json:"game"`
+	Player player.Player `json:"player"`
 }
 
 func (a Authorization) key() string {

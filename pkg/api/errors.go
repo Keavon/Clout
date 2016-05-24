@@ -41,3 +41,11 @@ func capacityError(c echo.Context) error {
 func operationalError(c echo.Context) error {
 	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 7})
 }
+
+func adminPermsRequiredError(c echo.Context) error {
+	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 8})
+}
+
+func gameAlreadyStartedError(c echo.Context) error {
+	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 9})
+}

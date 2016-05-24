@@ -3,25 +3,33 @@ package game
 import (
 	"errors"
 	"fmt"
-	"math/rand"
 	"time"
 
 	"github.com/garyburd/redigo/redis"
-	"github.com/keavon/clout/pkg/country"
 	"github.com/keavon/clout/pkg/player"
 )
 
 // expiration is the time until the redis object will expire if unused
 const expiration = 5 * time.Minute
 
+const (
+	// Waiting is the game state when waiting for players
+	Waiting = 0
+	// Started is the game state when game is in progress
+	Started = 1
+	// Stopped is the game state when the game is over
+	Stopped = 2
+)
+
 // ErrFull is an error returned when there is no room left in game
 var ErrFull = errors.New("No room left in game")
 
 // Game defines the structure of the game object
 type Game struct {
-	ID      string
-	Status  int
-	Players []player.Player
+	ID        string          `json:"id"`
+	Status    int             `json:"status"`
+	StartTime time.Time       `json:"startTime"`
+	Players   []player.Player `json:"-"`
 }
 
 func (g Game) key() string {
@@ -37,6 +45,14 @@ func Load(rc redis.Conn, ID string) (Game, error) {
 		return g, err
 	}
 	g.Status = status
+
+	start, err := redis.Int64(rc.Do("GET", g.key()+":start"))
+	if err != nil {
+		return g, err
+	}
+	if start != -1 {
+		g.StartTime = time.Unix(0, start)
+	}
 
 	players, err := redis.Values(rc.Do("SMEMBERS", g.key()+":players"))
 	if err != nil {
@@ -66,6 +82,12 @@ func (g Game) Save(rc redis.Conn) error {
 	rc.Send("MULTI")
 	rc.Send("SET", g.key(), g.Status)
 
+	if g.StartTime.IsZero() {
+		rc.Send("SET", g.key()+":start", -1)
+	} else {
+		rc.Send("SET", g.key()+":start", g.StartTime.UnixNano())
+	}
+
 	for _, player := range g.Players {
 		rc.Send("SADD", g.key()+":players", player.ID)
 	}
@@ -81,6 +103,7 @@ func (g Game) Save(rc redis.Conn) error {
 func (g Game) Touch(rc redis.Conn) error {
 	rc.Send("MULTI")
 	rc.Send("EXPIRE", g.key(), expiration.Seconds())
+	rc.Send("EXPIRE", g.key()+":start", expiration.Seconds())
 	rc.Send("EXPIRE", g.key()+":players", expiration.Seconds())
 	_, err := rc.Do("EXEC")
 	return err
@@ -88,50 +111,5 @@ func (g Game) Touch(rc redis.Conn) error {
 
 // New creates a new game
 func New(ID string) Game {
-	return Game{ID: ID, Status: 0}
-}
-
-// NewPlayer adds a new player to a game
-func (g *Game) NewPlayer(ID string, name string, admin bool) (player.Player, error) {
-	player := player.Player{ID: ID, Name: name, Admin: admin}
-
-	// Select a country that are not already in use
-	countries := []int{}
-
-	for i := range country.Countries {
-		countries = append(countries, i)
-	}
-
-	// Loop through players and remove countries that have been chosen
-	for _, player := range g.Players {
-		for i, country := range countries {
-
-			if player.Country.ID == country {
-				if i == 0 {
-					countries = countries[1:]
-				} else if i == len(countries)-1 {
-					countries = countries[:len(countries)-1]
-				} else {
-					countries = append(countries[:i], countries[i+1:]...)
-				}
-
-				break
-			}
-		}
-	}
-
-	if len(countries) == 0 {
-		return player, ErrFull
-	}
-
-	// Seed the RNG
-	rand.Seed(time.Now().UnixNano())
-	// Select a country from the array of remaining countries.
-	player.Country = country.Countries[countries[rand.Intn(len(countries))]]
-	player.Money = player.Country.InitialMoney
-
-	// Add player to game
-	g.Players = append(g.Players, player)
-
-	return player, nil
+	return Game{ID: ID, Status: Waiting}
 }
