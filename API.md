@@ -85,3 +85,23 @@
 #### Response
 
 - Code: `200 OK`
+
+### Set number of installations operational
+
+- `GET /api/operational/<resource id>`
+
+#### Request
+
+- Headers: `Authorization: <token>`
+
+- Body:
+```json
+{
+  "number": 10
+}
+```
+
+
+#### Response
+
+- Code: `200 OK`

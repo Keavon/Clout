@@ -31,28 +31,17 @@ func (g Game) key() string {
 // Load game from redis
 func Load(rc redis.Conn, ID string) (Game, error) {
 	g := Game{ID: ID}
-	//rc.Send("GET", g.key())
-	//rc.Send("SMEMBERS", g.key()+":players")
-	//rc.Flush()
-
-	fmt.Println("_________> In game")
 
 	status, err := redis.Int(rc.Do("GET", g.key()))
 	if err != nil {
-		fmt.Println("///////////> Status error")
-		fmt.Println()
 		return g, err
 	}
 	g.Status = status
-
-	fmt.Println(">>>>>>>>>>> After Status")
 
 	players, err := redis.Values(rc.Do("SMEMBERS", g.key()+":players"))
 	if err != nil {
 		return g, err
 	}
-
-	fmt.Println("~~~~~~~~> Started player load")
 
 	playerIDs := []string{}
 	if err := redis.ScanSlice(players, &playerIDs); err != nil {

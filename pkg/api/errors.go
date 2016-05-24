@@ -37,3 +37,7 @@ func costExceededError(c echo.Context) error {
 func capacityError(c echo.Context) error {
 	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 6})
 }
+
+func operationalError(c echo.Context) error {
+	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 7})
+}

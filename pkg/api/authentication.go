@@ -1,8 +1,6 @@
 package api
 
 import (
-	"fmt"
-
 	"github.com/garyburd/redigo/redis"
 	"github.com/keavon/clout/pkg/authorization"
 	"github.com/labstack/echo"
@@ -23,11 +21,8 @@ func (api API) Auth() echo.MiddlewareFunc {
 			rc := api.Pool.Get()
 			defer rc.Close()
 
-			fmt.Println("before")
-
 			auth, err := authorization.Load(rc, token)
 			if err != nil {
-				fmt.Println("#######> errors")
 				if err == redis.ErrNil {
 					return invalidTokenError(c)
 				}
@@ -49,8 +44,6 @@ func (api API) Auth() echo.MiddlewareFunc {
 			if err != nil {
 				return err
 			}
-
-			fmt.Println("end")
 
 			c.Set("auth", auth)
 			return next(c)

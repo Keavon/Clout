@@ -1,7 +1,6 @@
 package player
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/garyburd/redigo/redis"
@@ -56,7 +55,6 @@ func (p Player) resourceKeys() []string {
 	for _, resource := range resources {
 		root := p.key() + ":" + resource
 		keys = append(keys, root)
-		keys = append(keys, root+":operational")
 	}
 
 	return keys
@@ -65,35 +63,26 @@ func (p Player) resourceKeys() []string {
 // Load player from redis
 func Load(rc redis.Conn, ID string) (Player, error) {
 	p := Player{ID: ID}
-	rc.Send("GET", p.key())
-	rc.Send("GET", p.key()+":admin")
-	rc.Send("GET", p.key()+":money")
-	rc.Send("GET", p.key()+":country")
-	for _, key := range p.resourceKeys() {
-		fmt.Println(key)
-		rc.Send("GET", key)
-	}
-	rc.Flush()
 
-	name, err := redis.String(rc.Receive())
+	name, err := redis.String(rc.Do("GET", p.key()))
 	if err != nil {
 		return p, err
 	}
 	p.Name = name
 
-	admin, err := redis.Bool(rc.Receive())
+	admin, err := redis.Bool(rc.Do("GET", p.key()+":admin"))
 	if err != nil {
 		return p, err
 	}
 	p.Admin = admin
 
-	money, err := redis.Int(rc.Receive())
+	money, err := redis.Int(rc.Do("GET", p.key()+":money"))
 	if err != nil {
 		return p, err
 	}
 	p.Money = money
 
-	countryID, err := redis.Int(rc.Receive())
+	countryID, err := redis.Int(rc.Do("GET", p.key()+":country"))
 	if err != nil {
 		return p, err
 	}
@@ -106,20 +95,16 @@ func Load(rc redis.Conn, ID string) (Player, error) {
 
 	installations := []ResourceInstallations{}
 
-	fmt.Println("$$$$$$$$$> Loading resources")
-
-	for range resources {
-		owned, err := redis.Int(rc.Receive())
+	for _, key := range p.resourceKeys() {
+		owned, err := redis.Int(rc.Do("GET", key))
 		if err != nil {
 			return p, err
 		}
 
-		operational, err := redis.Int(rc.Receive())
+		operational, err := redis.Int(rc.Do("GET", key+":operational"))
 		if err != nil {
 			return p, err
 		}
-
-		fmt.Println("@@@@@@@@@@> Resoures loaded")
 
 		installations = append(installations, ResourceInstallations{Owned: owned, Operational: operational})
 	}
@@ -164,7 +149,7 @@ func saveResource(rc redis.Conn, rkey string, name string, value ResourceInstall
 	key := rkey + ":" + name
 
 	rc.Send("SET", key, value.Owned)
-	rc.Send("SET", key+":operational", value.Owned)
+	rc.Send("SET", key+":operational", value.Operational)
 }
 
 // Touch updates the TTL of the player to keep it from expiring
@@ -177,6 +162,7 @@ func (p Player) Touch(rc redis.Conn) error {
 
 	for _, key := range p.resourceKeys() {
 		rc.Send("EXPIRE", key, expiration.Seconds())
+		rc.Send("EXPIRE", key+":operational", expiration.Seconds())
 	}
 
 	_, err := rc.Do("EXEC")

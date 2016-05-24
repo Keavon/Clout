@@ -1,7 +1,6 @@
 package authorization
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/garyburd/redigo/redis"
@@ -26,18 +25,11 @@ func (a Authorization) key() string {
 // Load authorization from redis
 func Load(rc redis.Conn, ID string) (Authorization, error) {
 	a := Authorization{ID: ID}
-	//rc.Send("GET", a.key()+":game")
-	//rc.Send("GET", a.key()+":player")
-	//rc.Flush()
-
-	fmt.Println("********> Pre Game")
 
 	gameID, err := redis.String(rc.Do("GET", a.key()+":game"))
 	if err != nil {
 		return a, err
 	}
-
-	fmt.Println("&&&&&&> Loading Game")
 
 	g, err := game.Load(rc, gameID)
 	if err != nil {
@@ -45,22 +37,16 @@ func Load(rc redis.Conn, ID string) (Authorization, error) {
 	}
 	a.Game = g
 
-	fmt.Println("^^^^^^^> Game loaded")
-
 	playerID, err := redis.String(rc.Do("GET", a.key()+":player"))
 	if err != nil {
 		return a, err
 	}
-
-	fmt.Println(":::::::::::::::> After playerID")
 
 	p, err := player.Load(rc, playerID)
 	if err != nil {
 		return a, err
 	}
 	a.Player = p
-
-	fmt.Println("--------> Player loaded")
 
 	return a, nil
 }
