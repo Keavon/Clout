@@ -22,10 +22,11 @@
 			<div class="name">
 				<form @submit.prevent="login">
 					<label>Welcome, world leader!</label>
-					<input type="tel" maxlength="4" required v-model="connection.room" placeholder="Room Code" :disabled="connection.status === 'connecting'">
+					<input type="tel" maxlength="4" required v-model="connection.room" placeholder="Room Code" :disabled="connection.status === 'connecting'" v-if="!connection.creatingRoom">
 					<input type="text" maxlength="25" required v-model="connection.name" placeholder="Name" :disabled="connection.status === 'connecting'">
-					<input type="submit" value="Play" :disabled="connection.status === 'connecting'">
+					<input type="submit" :value="connection.creatingRoom ? 'Host' : 'Play'" :disabled="connection.status === 'connecting'">
 				</form>
+				<p>Or <a href="#" @click.prevent="connection.creatingRoom = !connection.creatingRoom">{{ connection.creatingRoom ? 'Join Existing Room' : 'Create New Room' }}</a></p>
 			</div>
 			<div></div>
 		</div>

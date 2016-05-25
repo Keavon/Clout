@@ -6,7 +6,8 @@ var clout = {
 		connection: {
 			name: "",
 			room: "",
-			status: "connected"
+			status: "stranger",
+			creatingRoom: false
 		},
 		country: {
 			name: "United States",
@@ -138,6 +139,17 @@ var clout = {
 	methods: {
 		login: function() {
 			clout.data.connection.status = "connecting";
+			
+			if (clout.data.connection.creatingRoom) {
+				request("create", "POST", { "username": clout.data.connection.name }, "", function(data, error) {
+					if (!error) {
+						alert(data);
+					} else {
+						alert("Error: " + data);
+					}
+				});
+			}
+			
 			setTimeout(function() {
 				clout.data.connection.status = "connected";
 			}, 1000);
@@ -166,3 +178,37 @@ var clout = {
 document.addEventListener("DOMContentLoaded", function() {
 	vue = new Vue(clout);
 });
+
+var request = function(path, method, body, token, callback) {
+	var root = "https://cloutgame.herokuapp.com/api";
+	if (path[0] !== "/") {
+		path = "/" + path;
+	}
+	
+	var request = new XMLHttpRequest();
+	request.open(method.toUpperCase(), root + path, true);
+	request.setRequestHeader("Content-Type", "application/json");
+	request.setRequestHeader("Authorization", token);
+	
+	if (method.toUpperCase() === "GET") {
+		request.onload = function() {
+			if (request.status >= 200 && request.status < 400) {
+				callback(JSON.parse(request.responseText), true);
+			} else {
+				try {
+					callback(JSON.parse(request.responseText), false);
+				} catch(e) {
+					callback({}, false);
+				}
+			}
+		};
+		
+		request.onerror = function() {
+			callback({}, false);
+		};
+		
+		request.send();
+	} else {
+		request.send(JSON.stringify(body));
+	}
+};

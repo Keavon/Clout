@@ -44,6 +44,11 @@
 	width: 100%;
 }
 
+.login .name p a {
+	color: #fff;
+	text-decoration: underline;
+}
+
 .login .name input[type="text"],
 .login .name input[type="tel"] {
 	display: block;
@@ -64,7 +69,7 @@
 	width: 100%;
 }
 
-.login .name input[type="text"] {
+.login .name input[type="tel"] + input[type="text"] {
 	border-top: none;
 	margin-top: 0;
 }
