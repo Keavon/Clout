@@ -190,3 +190,47 @@
 #### Response
 
 - Code: `200 OK`
+
+### Get Rankings (from highest to lowest)
+
+- `POST /api/rankings/<gameid>`
+
+#### Response
+
+- Code: `200 OK`
+
+- Body:
+```json
+[
+  {
+    ... // player object
+  }
+]
+```
+## Resource IDs
+
+- Coal: 0
+- Oil: 1
+- Gas: 2
+- Nuclear: 3
+- Geothermal: 4
+- Solar: 5
+- Wind: 6
+- Hydroelectric: 7
+
+## API errors
+
+Errors are returned in the format `{"errorID": <id>}`
+
+### Error IDs and meanings
+
+- 0: Invalid username chose
+- 1: Invalid authorization token
+- 2: Invalid game ID
+- 3: No room left in game
+- 4: Invalid Resource ID
+- 5: Attempted purchase was greater than players money
+- 6: Player is already at installation capacity for the Resource
+- 7: Invalid number of operational units specified
+- 8: Admin permissions required
+- 9: The game has already started

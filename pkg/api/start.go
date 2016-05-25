@@ -17,7 +17,7 @@ func (api API) Start(c echo.Context) error {
 	}
 
 	if auth.Game.Status != game.Waiting {
-		return gameAlreadyStartedError(c)
+		return gameStartedError(c)
 	}
 
 	auth.Game.Start()

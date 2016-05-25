@@ -46,6 +46,6 @@ func adminPermsRequiredError(c echo.Context) error {
 	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 8})
 }
 
-func gameAlreadyStartedError(c echo.Context) error {
+func gameStartedError(c echo.Context) error {
 	return c.JSON(http.StatusForbidden, errorCode{ErrorID: 9})
 }

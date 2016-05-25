@@ -35,6 +35,7 @@ func main() {
 	e.POST("/api/purchase/:id", a.Purchase, a.Auth())
 	e.POST("/api/operational/:id", a.Operational, a.Auth())
 	e.POST("/api/start", a.Start, a.Auth())
+	e.GET("/api/rankings/:game", a.Rankings)
 
 	// Serve static assets from files
 	e.Static("/css", "css")

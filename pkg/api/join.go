@@ -51,6 +51,10 @@ func (api API) Join(c echo.Context) error {
 		return err
 	}
 
+	if g.Status != game.Waiting {
+		return gameStartedError(c)
+	}
+
 	// Create new player
 	playerID, err := token.Token()
 	if err != nil {

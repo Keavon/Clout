@@ -34,7 +34,7 @@ func (api API) Create(c echo.Context) error {
 	}
 
 	// Create new game
-	gameid, err := token.ShortToken()
+	gameid, err := token.GameID()
 	if err != nil {
 		return err
 	}
