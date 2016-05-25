@@ -113,6 +113,13 @@ var clout = {
 			});
 			return total;
 		},
+		damage: function() {
+			var total = 0;
+			clout.data.resources.forEach(function(element) {
+				total += element.operating * element.damage;
+			});
+			return total;
+		},
 		energy: function() {
 			var demand = clout.data.country.demand;
 			var production = clout.computed.production();
