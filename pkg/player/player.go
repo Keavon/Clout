@@ -27,6 +27,8 @@ type Player struct {
 	Name          string                `json:"name"`
 	Admin         bool                  `json:"admin"`
 	Money         int                   `json:"money"`
+	Damage        int                   `json:"damage"`
+	LastUpdated   time.Time             `json:"-"`
 	Country       country.Country       `json:"country"`
 	Coal          ResourceInstallations `json:"coal"`
 	Oil           ResourceInstallations `json:"oil"`
@@ -82,6 +84,20 @@ func Load(rc redis.Conn, ID string) (Player, error) {
 	}
 	p.Money = money
 
+	damage, err := redis.Int(rc.Do("GET", p.key()+":damage"))
+	if err != nil {
+		return p, err
+	}
+	p.Damage = damage
+
+	updated, err := redis.Int64(rc.Do("GET", p.key()+":updated"))
+	if err != nil {
+		return p, err
+	}
+	if updated != -1 {
+		p.LastUpdated = time.Unix(0, updated)
+	}
+
 	countryID, err := redis.Int(rc.Do("GET", p.key()+":country"))
 	if err != nil {
 		return p, err
@@ -127,6 +143,14 @@ func (p Player) Save(rc redis.Conn) error {
 	rc.Send("SET", p.key(), p.Name)
 	rc.Send("SET", p.key()+":admin", p.Admin)
 	rc.Send("SET", p.key()+":money", p.Money)
+	rc.Send("SET", p.key()+":damage", p.Damage)
+
+	if p.LastUpdated.IsZero() {
+		rc.Send("SET", p.key()+":updated", -1)
+	} else {
+		rc.Send("SET", p.key()+":updated", p.LastUpdated.UnixNano())
+	}
+
 	rc.Send("SET", p.key()+":country", p.Country.ID)
 
 	saveResource(rc, p.key(), "coal", p.Coal)
@@ -158,6 +182,8 @@ func (p Player) Touch(rc redis.Conn) error {
 	rc.Send("EXPIRE", p.key(), expiration.Seconds())
 	rc.Send("EXPIRE", p.key()+":admin", expiration.Seconds())
 	rc.Send("EXPIRE", p.key()+":money", expiration.Seconds())
+	rc.Send("EXPIRE", p.key()+":damage", expiration.Seconds())
+	rc.Send("EXPIRE", p.key()+":updated", expiration.Seconds())
 	rc.Send("EXPIRE", p.key()+":country", expiration.Seconds())
 
 	for _, key := range p.resourceKeys() {

@@ -110,3 +110,102 @@ func (p *Player) SetOperational(id int, num int) error {
 	ri.Operational = num
 	return nil
 }
+
+// Update environmental damage and money
+func (p *Player) Update() {
+	p.updateMoney()
+	p.updateDamage()
+
+	p.LastUpdated = time.Now()
+}
+
+type resCalc struct {
+	res *ResourceInstallations
+	ret int
+}
+
+func (p *Player) updateMoney() {
+	resources := []resCalc{
+		resCalc{
+			res: &p.Coal,
+			ret: resource.CoalReturn,
+		},
+		resCalc{
+			res: &p.Oil,
+			ret: resource.OilReturn,
+		},
+		resCalc{
+			res: &p.Gas,
+			ret: resource.GasReturn,
+		},
+		resCalc{
+			res: &p.Nuclear,
+			ret: resource.NuclearReturn,
+		},
+		resCalc{
+			res: &p.Geothermal,
+			ret: resource.GeothermalReturn,
+		},
+		resCalc{
+			res: &p.Solar,
+			ret: resource.SolarReturn,
+		},
+		resCalc{
+			res: &p.Wind,
+			ret: resource.WindReturn,
+		},
+		resCalc{
+			res: &p.Hydroelectric,
+			ret: resource.HydroelectricReturn,
+		},
+	}
+
+	for _, r := range resources {
+		income := float64(r.res.Operational) * float64(r.ret) * time.Since(p.LastUpdated).Seconds()
+		// Round income to nearest integer and add to money
+		p.Money = p.Money + int(income+0.5)
+	}
+}
+
+func (p *Player) updateDamage() {
+	resources := []resCalc{
+		resCalc{
+			res: &p.Coal,
+			ret: resource.CoalDamage,
+		},
+		resCalc{
+			res: &p.Oil,
+			ret: resource.OilDamage,
+		},
+		resCalc{
+			res: &p.Gas,
+			ret: resource.GasDamage,
+		},
+		resCalc{
+			res: &p.Nuclear,
+			ret: resource.NuclearDamage,
+		},
+		resCalc{
+			res: &p.Geothermal,
+			ret: resource.GeothermalDamage,
+		},
+		resCalc{
+			res: &p.Solar,
+			ret: resource.SolarDamage,
+		},
+		resCalc{
+			res: &p.Wind,
+			ret: resource.WindDamage,
+		},
+		resCalc{
+			res: &p.Hydroelectric,
+			ret: resource.HydroelectricDamage,
+		},
+	}
+
+	for _, r := range resources {
+		current := float64(r.res.Operational) * float64(r.ret) * time.Since(p.LastUpdated).Seconds()
+		// Round current damage and add to current damage
+		p.Damage = p.Damage + int(current+0.5)
+	}
+}
