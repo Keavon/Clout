@@ -1,5 +1,5 @@
 hash: be1711ed7557624e230ebde09f67f015307551980d0b54b6aec9bfad1a4b956e
-updated: 2016-05-24T22:36:43.135491358-07:00
+updated: 2016-05-24T22:53:11.247361575-07:00
 imports:
 - name: github.com/dgrijalva/jwt-go
   version: 40bd0f3b4891a9d7f121bfb7b8e8b0525625e262
@@ -9,7 +9,7 @@ imports:
   - redis
   - internal
 - name: github.com/keavon/clout
-  version: 31d4cc402f2d4eb8bec24b1f356e836f81622529
+  version: 1087e89e471f7b370392abf38acc6edac49a4dbd
   subpackages:
   - pkg/api
   - pkg/pool
