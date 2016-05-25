@@ -27,7 +27,7 @@
 
 ### Join a existing game
 
-- `POST /api/create`
+- `POST /api/join`
 
 #### Request
 
