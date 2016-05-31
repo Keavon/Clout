@@ -5,6 +5,7 @@ type Country struct {
 	ID            int           `json:"id"`
 	Name          string        `json:"name"`
 	InitialMoney  int           `json:"initialMoney"`
+	InitialDemand int           `json:"initalDemand"`
 	Coal          ResourceStats `json:"coal"`
 	Oil           ResourceStats `json:"oil"`
 	Gas           ResourceStats `json:"gas"`

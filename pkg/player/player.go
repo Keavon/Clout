@@ -28,6 +28,7 @@ type Player struct {
 	Admin         bool                  `json:"admin"`
 	Money         int                   `json:"money"`
 	Damage        int                   `json:"damage"`
+	Demand        int                   `json:"demand"`
 	LastUpdated   time.Time             `json:"-"`
 	Country       country.Country       `json:"country"`
 	Coal          ResourceInstallations `json:"coal"`

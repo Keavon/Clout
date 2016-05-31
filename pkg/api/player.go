@@ -18,7 +18,7 @@ func (api API) Player(c echo.Context) error {
 		if auth.Player.LastUpdated.IsZero() {
 			auth.Player.LastUpdated = auth.Game.StartTime
 		}
-		auth.Player.Update()
+		auth.Player.Update(auth.Game.StartTime)
 
 		// Get a connection to the redis pool
 		rc := api.Pool.Get()

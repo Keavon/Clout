@@ -75,10 +75,13 @@
     "name": "<name>",
     "admin": true,
     "money": 40,
+    "damage": 0,
+    "demand": 0,
     "country": {
       "id": 1,
       "name": "China",
       "initialMoney": 40,
+      "initalDemand": 1000000000,
       "coal": {
         "capacity": 2,
         "scalar": 1

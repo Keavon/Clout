@@ -112,9 +112,9 @@ func (p *Player) SetOperational(id int, num int) error {
 }
 
 // Update environmental damage and money
-func (p *Player) Update() {
+func (p *Player) Update(start time.Time) {
 	p.updateMoney()
-	p.updateDamage()
+	p.updateDamage(start)
 
 	p.LastUpdated = time.Now()
 }
@@ -163,11 +163,11 @@ func (p *Player) updateMoney() {
 	for _, r := range resources {
 		income := float64(r.res.Operational) * float64(r.ret) * time.Since(p.LastUpdated).Seconds()
 		// Round income to nearest integer and add to money
-		p.Money = p.Money + int(income+0.5)
+		p.Money += int(income + 0.5)
 	}
 }
 
-func (p *Player) updateDamage() {
+func (p *Player) updateDamage(start time.Time) {
 	resources := []resCalc{
 		resCalc{
 			res: &p.Coal,
@@ -203,9 +203,20 @@ func (p *Player) updateDamage() {
 		},
 	}
 
+	capacity := 0
+
 	for _, r := range resources {
 		current := float64(r.res.Operational) * float64(r.ret) * time.Since(p.LastUpdated).Seconds()
 		// Round current damage and add to current damage
-		p.Damage = p.Damage + int(current+0.5)
+		p.Damage += int(current + 0.5)
+
+		// Add operational power plants to capacity
+		capacity += r.res.Operational * 1000000000
+	}
+
+	p.Demand = p.Country.AvgDemand(start, p.LastUpdated)
+
+	if p.Demand > capacity {
+		p.Damage += p.Demand - capacity
 	}
 }

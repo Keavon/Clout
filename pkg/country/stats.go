@@ -4,9 +4,10 @@ package country
 // Note that ID must equal array index
 var Countries = []Country{
 	Country{
-		ID:           0,
-		Name:         "United States",
-		InitialMoney: 50,
+		ID:            0,
+		Name:          "United States",
+		InitialMoney:  50,
+		InitialDemand: 1000000000,
 		Coal: ResourceStats{
 			Capacity: 2,
 			Scalar:   1.0,
@@ -41,9 +42,10 @@ var Countries = []Country{
 		},
 	},
 	Country{
-		ID:           1,
-		Name:         "China",
-		InitialMoney: 40,
+		ID:            1,
+		Name:          "China",
+		InitialMoney:  40,
+		InitialDemand: 1000000000,
 		Coal: ResourceStats{
 			Capacity: 2,
 			Scalar:   1.0,
@@ -78,9 +80,10 @@ var Countries = []Country{
 		},
 	},
 	Country{
-		ID:           2,
-		Name:         "Russia",
-		InitialMoney: 40,
+		ID:            2,
+		Name:          "Russia",
+		InitialDemand: 1000000000,
+		InitialMoney:  40,
 		Coal: ResourceStats{
 			Capacity: 2,
 			Scalar:   1.0,
@@ -115,9 +118,10 @@ var Countries = []Country{
 		},
 	},
 	Country{
-		ID:           3,
-		Name:         "India",
-		InitialMoney: 40,
+		ID:            3,
+		Name:          "India",
+		InitialMoney:  40,
+		InitialDemand: 1000000000,
 		Coal: ResourceStats{
 			Capacity: 2,
 			Scalar:   1.0,
