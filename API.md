@@ -237,3 +237,4 @@ Errors are returned in the format `{"errorID": <id>}`
 - 7: Invalid number of operational units specified
 - 8: Admin permissions required
 - 9: The game has already started
+- 10: The game has already ended

@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/keavon/clout/pkg/authorization"
+	"github.com/keavon/clout/pkg/game"
 	"github.com/keavon/clout/pkg/player"
 	"github.com/keavon/clout/pkg/resource"
 	"github.com/labstack/echo"
@@ -18,6 +19,10 @@ type operationalRequest struct {
 // Operational sets the number of operational instances
 func (api API) Operational(c echo.Context) error {
 	auth := c.Get("auth").(authorization.Authorization)
+
+	if auth.Game.Status == game.Stopped {
+		return gameEndedError(c)
+	}
 
 	req := new(operationalRequest)
 	if err := c.Bind(req); err != nil {

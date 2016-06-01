@@ -58,3 +58,15 @@ func (g *Game) Start() {
 	g.Status = Started
 	g.StartTime = time.Now()
 }
+
+// Update game fields that change over time
+func (g *Game) Update() {
+	if g.StartTime.IsZero() {
+		return
+	}
+
+	gl := time.Since(g.StartTime)
+	if gl.Nanoseconds() > duration.Nanoseconds() {
+		g.Status = Stopped
+	}
+}

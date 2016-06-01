@@ -40,6 +40,7 @@ func (api API) Auth() echo.MiddlewareFunc {
 				return err
 			}
 
+			auth.Game.Update()
 			err = auth.Game.Touch(rc)
 			if err != nil {
 				return err

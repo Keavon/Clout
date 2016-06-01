@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/keavon/clout/pkg/authorization"
+	"github.com/keavon/clout/pkg/game"
 	"github.com/keavon/clout/pkg/player"
 	"github.com/keavon/clout/pkg/resource"
 	"github.com/labstack/echo"
@@ -13,6 +14,10 @@ import (
 // Purchase handles installation purchases
 func (api API) Purchase(c echo.Context) error {
 	auth := c.Get("auth").(authorization.Authorization)
+
+	if auth.Game.Status == game.Stopped {
+		return gameEndedError(c)
+	}
 
 	id := c.Param("id")
 

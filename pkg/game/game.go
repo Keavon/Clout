@@ -9,8 +9,12 @@ import (
 	"github.com/keavon/clout/pkg/player"
 )
 
-// expiration is the time until the redis object will expire if unused
-const expiration = 5 * time.Minute
+const (
+	// expiration is the time until the redis object will expire if unused
+	expiration = 5 * time.Minute
+	// duration is the length of an entire game
+	duration = 15 * time.Minute
+)
 
 const (
 	// Waiting is the game state when waiting for players
