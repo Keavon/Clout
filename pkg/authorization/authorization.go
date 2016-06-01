@@ -42,7 +42,12 @@ func Load(rc redis.Conn, ID string) (Authorization, error) {
 		return a, err
 	}
 
-	p, err := player.Load(rc, playerID)
+	length := time.Since(g.StartTime)
+	if g.StartTime.IsZero() {
+		length = 0 * time.Second
+	}
+
+	p, err := player.Load(rc, playerID, length)
 	if err != nil {
 		return a, err
 	}

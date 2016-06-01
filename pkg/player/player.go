@@ -45,6 +45,7 @@ type Player struct {
 type ResourceInstallations struct {
 	Owned       int `json:"owned"`
 	Operational int `json:"operational"`
+	Cost        int `json:"cost"`
 }
 
 func (p Player) key() string {
@@ -64,7 +65,7 @@ func (p Player) resourceKeys() []string {
 }
 
 // Load player from redis
-func Load(rc redis.Conn, ID string) (Player, error) {
+func Load(rc redis.Conn, ID string, length time.Duration) (Player, error) {
 	p := Player{ID: ID}
 
 	name, err := redis.String(rc.Do("GET", p.key()))
@@ -112,7 +113,7 @@ func Load(rc redis.Conn, ID string) (Player, error) {
 
 	installations := []ResourceInstallations{}
 
-	for _, key := range p.resourceKeys() {
+	for i, key := range p.resourceKeys() {
 		owned, err := redis.Int(rc.Do("GET", key))
 		if err != nil {
 			return p, err
@@ -123,7 +124,12 @@ func Load(rc redis.Conn, ID string) (Player, error) {
 			return p, err
 		}
 
-		installations = append(installations, ResourceInstallations{Owned: owned, Operational: operational})
+		cost, err := p.Country.ResourceCost(i, length)
+		if err != nil {
+			return p, err
+		}
+
+		installations = append(installations, ResourceInstallations{Owned: owned, Operational: operational, Cost: cost})
 	}
 
 	p.Coal = installations[0]

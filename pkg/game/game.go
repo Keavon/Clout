@@ -69,7 +69,8 @@ func Load(rc redis.Conn, ID string) (Game, error) {
 	}
 
 	for _, playerID := range playerIDs {
-		player, err := player.Load(rc, playerID)
+		// Since resource cost doesn't matter in this context, pass a dummy value
+		player, err := player.Load(rc, playerID, 0*time.Second)
 		if err != nil {
 			fmt.Println(err)
 			continue

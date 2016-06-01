@@ -22,46 +22,37 @@ var ErrInvalidOperational = errors.New("Invalid Number Operational")
 func (p *Player) Purchase(id int) error {
 	ri := &ResourceInstallations{}
 	stats := country.ResourceStats{}
-	cost := 0
 
 	switch id {
 	case resource.Coal:
 		ri = &p.Coal
-		cost, _ = p.Country.ResourceCost(resource.Coal, time.Second)
 		stats = p.Country.Coal
 	case resource.Oil:
 		ri = &p.Oil
-		cost, _ = p.Country.ResourceCost(resource.Oil, time.Second)
 		stats = p.Country.Oil
 	case resource.Gas:
 		ri = &p.Gas
-		cost, _ = p.Country.ResourceCost(resource.Gas, time.Second)
 		stats = p.Country.Gas
 	case resource.Nuclear:
 		ri = &p.Nuclear
-		cost, _ = p.Country.ResourceCost(resource.Nuclear, time.Second)
 		stats = p.Country.Nuclear
 	case resource.Geothermal:
 		ri = &p.Geothermal
-		cost, _ = p.Country.ResourceCost(resource.Geothermal, time.Second)
 		stats = p.Country.Geothermal
 	case resource.Solar:
 		ri = &p.Solar
-		cost, _ = p.Country.ResourceCost(resource.Solar, time.Second)
 		stats = p.Country.Solar
 	case resource.Wind:
 		ri = &p.Wind
-		cost, _ = p.Country.ResourceCost(resource.Wind, time.Second)
 		stats = p.Country.Wind
 	case resource.Hydroelectric:
 		ri = &p.Hydroelectric
-		cost, _ = p.Country.ResourceCost(resource.Hydroelectric, time.Second)
 		stats = p.Country.Hydroelectric
 	default:
 		return resource.ErrInvalidResource
 	}
 
-	if cost > p.Money {
+	if ri.Cost > p.Money {
 		return ErrCost
 	}
 
@@ -69,7 +60,7 @@ func (p *Player) Purchase(id int) error {
 		return ErrCapacity
 	}
 
-	p.Money = p.Money - cost
+	p.Money = p.Money - ri.Cost
 	ri.Owned = ri.Owned + 1
 	// Make the new installation active
 	ri.Operational = ri.Operational + 1

@@ -8,30 +8,44 @@ import (
 
 // ResourceCost gives the cost of a resource at a given time
 // TODO: Implement price drop over time
-func (c Country) ResourceCost(id int, time time.Duration) (int, error) {
+func (c Country) ResourceCost(id int, length time.Duration) (int, error) {
+	// Time discount is the discount given to resources over time
+	td := length.Seconds() / 4
+	// Resource cost is the initial cost * the countries scalar for the resource
+	rc := 0.0
+
 	switch id {
 	case resource.Coal:
-		return resource.InitialCoalCost, nil
+		rc = resource.InitialCoalCost * c.Coal.Scalar
 	case resource.Oil:
-		return resource.InitialOilCost, nil
+		rc = resource.InitialOilCost * c.Oil.Scalar
 	case resource.Gas:
-		return resource.InitialGasCost, nil
+		rc = resource.InitialGasCost * c.Gas.Scalar
 	case resource.Nuclear:
-		return resource.InitialNuclearCost, nil
+		rc = resource.InitialNuclearCost * c.Nuclear.Scalar
 	case resource.Geothermal:
-		return resource.InitialGeothermalCost, nil
+		rc = resource.InitialGeothermalCost * c.Geothermal.Scalar
 	case resource.Solar:
-		return resource.InitialSolarCost, nil
+		rc = resource.InitialSolarCost * c.Solar.Scalar
 	case resource.Wind:
-		return resource.InitialWindCost, nil
+		rc = resource.InitialWindCost * c.Wind.Scalar
 	case resource.Hydroelectric:
-		return resource.InitialHydroelectricCost, nil
+		rc = resource.InitialHydroelectricCost * c.Hydroelectric.Scalar
 	default:
 		return -1, resource.ErrInvalidResource
 	}
+
+	cost := int(rc - td + 0.5)
+
+	// Cost can't be lower than 0
+	if cost < 0 {
+		cost = 0
+	}
+
+	return cost, nil
 }
 
-// Demand calculates average power demand between two times.
+// AvgDemand calculates average power demand between two times.
 // TODO: Add a growth constant between times
 func (c Country) AvgDemand(start time.Time, previous time.Time) int {
 	growth := 1.1
