@@ -7,14 +7,15 @@ var clout = {
 			name: "",
 			room: "",
 			status: "stranger",
-			creatingRoom: false
+			token: "",
+			creatingRoom: false,
+			invitePrompt: false
 		},
 		country: {
-			name: "United States",
-			icon: "us",
-			rank: 1,
-			demand: 39,
-			money: 16732691236
+			name: "",
+			rank: 0,
+			demand: 0,
+			money: 0
 		},
 		resources: [
 			{
@@ -142,17 +143,27 @@ var clout = {
 			
 			if (clout.data.connection.creatingRoom) {
 				request("create", "POST", { "username": clout.data.connection.name }, "", function(data, error) {
-					if (!error) {
-						alert(data);
+					if (error) {
+						alert("Error: " + JSON.stringify(data));
 					} else {
-						alert("Error: " + data);
+						clout.data.connection.invitePrompt = true;
+						clout.data.connection.status = "connected";
+						clout.data.connection.room = data.gameid;
+						clout.data.connection.token = data.token;
+						clout.data.country.name = data.country.name;
+					}
+				});
+			} else {
+				request("join", "POST", { "username": clout.data.connection.name, "gameid": clout.data.connection.room }, "", function(data, error) {
+					if (error) {
+						alert("Error: " + JSON.stringify(data));
+					} else {
+						clout.data.connection.status = "connected";
+						clout.data.connection.token = data.token;
+						clout.data.country.name = data.country.name;
 					}
 				});
 			}
-			
-			setTimeout(function() {
-				clout.data.connection.status = "connected";
-			}, 1000);
 		},
 		buy: function(index) {
 			if (clout.data.country.money > clout.data.resources[index].cost && (clout.data.resources[index].owned < clout.data.resources[index].capacity || clout.data.resources[index].capacity < 0)) {
@@ -180,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 var request = function(path, method, body, token, callback) {
-	var root = "https://cloutgame.herokuapp.com/api";
+	var root = "https://clout.ga/api";
 	if (path[0] !== "/") {
 		path = "/" + path;
 	}
@@ -190,25 +201,25 @@ var request = function(path, method, body, token, callback) {
 	request.setRequestHeader("Content-Type", "application/json");
 	request.setRequestHeader("Authorization", token);
 	
-	if (method.toUpperCase() === "GET") {
-		request.onload = function() {
-			if (request.status >= 200 && request.status < 400) {
+	request.onload = function() {
+		if (request.status >= 200 && request.status < 400) {
+			callback(JSON.parse(request.responseText), false);
+		} else {
+			try {
 				callback(JSON.parse(request.responseText), true);
-			} else {
-				try {
-					callback(JSON.parse(request.responseText), false);
-				} catch(e) {
-					callback({}, false);
-				}
+			} catch(e) {
+				callback({}, true);
 			}
-		};
-		
-		request.onerror = function() {
-			callback({}, false);
-		};
-		
+		}
+	};
+	
+	request.onerror = function() {
+		callback({}, true);
+	};
+	
+	if (method.toUpperCase() === "GET") {
 		request.send();
-	} else {
+	} else if (method.toUpperCase() === "POST") {
 		request.send(JSON.stringify(body));
 	}
 };

@@ -22,7 +22,7 @@
 			<div class="name">
 				<form @submit.prevent="login">
 					<label>Welcome, world leader!</label>
-					<input type="tel" maxlength="4" required v-model="connection.room" placeholder="Room Code" :disabled="connection.status === 'connecting'" v-if="!connection.creatingRoom">
+					<input type="tel" maxlength="5" required v-model="connection.room" placeholder="Room Code" :disabled="connection.status === 'connecting'" v-if="!connection.creatingRoom">
 					<input type="text" maxlength="25" required v-model="connection.name" placeholder="Name" :disabled="connection.status === 'connecting'">
 					<input type="submit" :value="connection.creatingRoom ? 'Host' : 'Play'" :disabled="connection.status === 'connecting'">
 				</form>
@@ -31,9 +31,13 @@
 			<div></div>
 		</div>
 		<div v-if="connection.status === 'connected'" class="game">
+			<div class="invite" v-if="connection.invitePrompt">
+				<span>Have others join at clout.ga | Open scoreboard at clout.ga/map | Room code: {{ connection.room }}</span>
+				<div @click.prevent="connection.invitePrompt = false"><svg viewBox="0 0 16 8" fill="#fff"><polygon points="8,0 16,8 0,8"/></svg></div>
+			</div>
 			<div class="country">
 				<div class="name">
-					<img :src="'icons/flags/' + country.icon + '.svg'">
+					<img :src="'flags/' + country.name + '.svg'">
 					<h1>{{ country.name }}</h1>
 				</div>
 				<div class="spacer"></div>

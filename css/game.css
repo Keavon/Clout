@@ -22,6 +22,44 @@
 	}
 }
 
+.game .invite {
+	background: #e67e22;
+	display: block;
+	max-width: 100%;
+	margin: 0;
+	position: relative;
+}
+
+.game .invite div {
+	content: "";
+	position: absolute;
+	margin: auto;
+	left: 0;
+	right: 0;
+	bottom: -12px;
+	width: 24px;
+	height: 12px;
+	border-radius: 0 0 12px 12px;
+	background: #e67e22;
+	cursor: pointer;
+}
+
+.game .invite div svg {
+	position: absolute;
+	margin: auto;
+	width: 12px;
+	height: 6px;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+
+.game .invite span {
+	font-size: 24px;
+	margin: 8px 0;
+	display: block;
+}
+
 .game .country {
 	flex: none;
 }
