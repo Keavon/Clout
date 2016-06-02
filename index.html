@@ -67,7 +67,7 @@
 			</div>
 			<div class="resources">
 				<div class="resource" v-for="resource in resources">
-					<div class="buy" :class="{ 'disabled': resource.capacity === 0 || resource.cost > country.money }">
+					<div class="buy" :class="{ 'disabled': resource.capacity === 0 || resource.owned >= resource.capacity || resource.cost > country.money }">
 						<svg viewBox="0 0 1000 1000">{{{ resource.icon }}}<circle class="click" cx="500" cy="500" r="500" @click.prevent="buy($index)" /></svg>
 						<span>{{ resource.cost | formatMoney }}</span>
 					</div>
@@ -107,6 +107,12 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div v-if="connection.status === 'scoreboard'" class="scoreboard">
+			<div class="names">
+				<p>SCOREBOARD</p>
+				<span v-for="player in connection.players">#{{ $index + 1 }} <img :src="'flags/' + player.country.name + '.svg'" />{{ player.country.name }} : {{ player.name }}</span>
 			</div>
 		</div>
 		<script src="//cdn.jsdelivr.net/vue/1.0.24/vue.js"></script>

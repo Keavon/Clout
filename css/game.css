@@ -210,8 +210,13 @@
 	fill: #666;
 }
 
+.game .resource .buy.disabled .click {
+	cursor: default;
+}
+
 .game .resource .buy.disabled span {
 	background: #666;
+	cursor: default;
 }
 
 .game .resource .buy svg {
@@ -492,9 +497,37 @@
 	margin-top: 4px;
 	width: 0;
 	height: 0;
+	background: none;
 	border-left: 8px solid transparent;
 	border-right: 8px solid transparent;
 	border-bottom: 8px solid #ff9000;
 	-webkit-appearance: none;
 	/* Remember to add and test support for other browsers! */
+}
+
+.scoreboard .names {
+	text-align: center;
+	display: inline-block;
+}
+
+.scoreboard .names p {
+	display: block;
+	font-size: 48px;
+	text-decoration: underline;
+	color: #fff;
+	margin: 16px;
+}
+
+.scoreboard .names span {
+	display: block;
+	font-size: 36px;
+	color: #fff;
+	vertical-align: middle;
+	text-align: left;
+}
+
+.scoreboard .names span img {
+	height: 36px;
+	vertical-align: middle;
+	margin-right: 16px;
 }

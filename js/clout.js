@@ -7,7 +7,8 @@ var vue = new Vue({
 			status: "stranger",
 			token: "",
 			creatingRoom: false,
-			invitePrompt: false
+			invitePrompt: false,
+			players: []
 		},
 		country: {
 			name: "",
@@ -146,13 +147,13 @@ var vue = new Vue({
 					if (error) {
 						alert("Error: " + JSON.stringify(data));
 					} else {
-						console.log(data);
 						self.connection.invitePrompt = true;
 						self.connection.status = "connected";
 						
 						self.connection.room = data.gameid;
-						self.connection.token = data.token;
 						self.country.name = data.country.name;
+						self.connection.token = data.token;
+						localStorage.token = data.token;
 						
 						self.resources[0].capacity = data.country.coal.capacity;
 						self.resources[0].revenue = data.country.coal.yearlyIncome;
@@ -197,8 +198,9 @@ var vue = new Vue({
 					} else {
 						self.connection.status = "connected";
 						
-						self.connection.token = data.token;
 						self.country.name = data.country.name;
+						self.connection.token = data.token;
+						localStorage.token = data.token;
 						
 						self.resources[0].capacity = data.country.coal.capacity;
 						self.resources[0].revenue = data.country.coal.yearlyIncome;
@@ -277,7 +279,17 @@ var vue = new Vue({
 				if (error) {
 					alert("Error: " + JSON.stringify(data));
 				} else {
-					console.log(data);
+					var sorted = data.sort(function(a, b) {
+						if (a.damage < b.damage) return -1;
+						else if (a.damage > b.damage) return 1;
+						else return 0;
+					});
+					
+					var index = sorted.map(function(e) {
+						return e.country.name;
+					}).indexOf(self.country.name);
+					
+					self.country.rank = index + 1;
 				}
 				setTimeout(self.rank, 5000);
 			});
@@ -313,6 +325,9 @@ var vue = new Vue({
 						self.resources[7].operating = data.player.hydroelectric.operational;
 						self.resources[7].owned = data.player.hydroelectric.owned;
 						
+						// Hack to force refresh
+						self.resources = JSON.parse(JSON.stringify(self.resources));
+						
 						self.country.money = data.player.money;
 					}
 				});
@@ -324,6 +339,72 @@ var vue = new Vue({
 					alert("Error: " + JSON.stringify(data));
 				} else {
 					// Do nothing?
+				}
+			});
+		},
+		scoreboard: function() {
+			var self = this;
+			this.connection.status = "scoreboard";
+			
+			request("rankings/" + this.connection.room, "GET", {}, this.connection.token, function(data, error) {
+				if (error) {
+					alert("Error: " + JSON.stringify(data));
+				} else {
+					self.connection.players = data;
+				}
+			});
+			
+			setTimeout(this.scoreboard, 1000);
+		}
+	},
+	ready: function() {
+		var self = this;
+		if (localStorage.token) {
+			request("player", "GET", {}, localStorage.token, function(data, error) {
+				if (!error) {
+					var rejoin = confirm("Would you like to rejoin this game that is in progress?");
+					
+					if (rejoin) {
+						self.connection.status = "connected";
+						self.country.name = data.player.country.name;
+						self.connection.token = localStorage.token;
+						self.connection.room = data.game.id;
+						
+						self.resources[0].capacity = data.player.country.coal.capacity;
+						self.resources[0].revenue = data.player.country.coal.yearlyIncome;
+						self.resources[0].damage = data.player.country.coal.yearlyDamage;
+						
+						self.resources[1].capacity = data.player.country.oil.capacity;
+						self.resources[1].revenue = data.player.country.oil.yearlyIncome;
+						self.resources[1].damage = data.player.country.oil.yearlyDamage;
+						
+						self.resources[2].capacity = data.player.country.gas.capacity;
+						self.resources[2].revenue = data.player.country.gas.yearlyIncome;
+						self.resources[2].damage = data.player.country.gas.yearlyDamage;
+						
+						self.resources[3].capacity = data.player.country.nuclear.capacity;
+						self.resources[3].revenue = data.player.country.nuclear.yearlyIncome;
+						self.resources[3].damage = data.player.country.nuclear.yearlyDamage;
+						
+						self.resources[4].capacity = data.player.country.geothermal.capacity;
+						self.resources[4].revenue = data.player.country.geothermal.yearlyIncome;
+						self.resources[4].damage = data.player.country.geothermal.yearlyDamage;
+						
+						self.resources[5].capacity = data.player.country.solar.capacity;
+						self.resources[5].revenue = data.player.country.solar.yearlyIncome;
+						self.resources[5].damage = data.player.country.solar.yearlyDamage;
+						
+						self.resources[6].capacity = data.player.country.wind.capacity;
+						self.resources[6].revenue = data.player.country.wind.yearlyIncome;
+						self.resources[6].damage = data.player.country.wind.yearlyDamage;
+						
+						self.resources[7].capacity = data.player.country.hydroelectric.capacity;
+						self.resources[7].revenue = data.player.country.hydroelectric.yearlyIncome;
+						self.resources[7].damage = data.player.country.hydroelectric.yearlyDamage;
+						
+						self.update();
+						self.rank();
+					}
 				}
 			});
 		}
@@ -350,7 +431,7 @@ var vue = new Vue({
 	}
 });
 
-var request = function(path, method, body, token, callback) {
+function request(path, method, body, token, callback) {
 	var root = "https://cloutgame.herokuapp.com/api";
 	if (path[0] !== "/") {
 		path = "/" + path;
@@ -386,4 +467,4 @@ var request = function(path, method, body, token, callback) {
 	} else if (method.toUpperCase() === "POST") {
 		request.send(JSON.stringify(body));
 	}
-};
+}
