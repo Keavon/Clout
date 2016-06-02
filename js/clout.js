@@ -1,6 +1,4 @@
-var vue;
-
-var clout = {
+var vue = new Vue({
 	el: "body",
 	data: {
 		connection: {
@@ -104,28 +102,28 @@ var clout = {
 	computed: {
 		production: function() {
 			var total = 0;
-			clout.data.resources.forEach(function(element) {
+			this.resources.forEach(function(element) {
 				total += element.operating;
 			});
 			return total;
 		},
 		income: function() {
 			var total = 0;
-			clout.data.resources.forEach(function(element) {
+			this.resources.forEach(function(element) {
 				total += element.operating * element.revenue;
 			});
 			return total;
 		},
 		yearlyDamage: function() {
 			var total = 0;
-			clout.data.resources.forEach(function(element) {
+			this.resources.forEach(function(element) {
 				total += element.operating * element.damage;
 			});
 			return total;
 		},
 		energy: function() {
-			var demand = clout.data.country.demand;
-			var production = clout.computed.production();
+			var demand = this.country.demand;
+			var production = this.production;
 			
 			var base = production / demand * 100;
 			var direction = "deficit";
@@ -140,84 +138,110 @@ var clout = {
 	},
 	methods: {
 		login: function() {
-			clout.data.connection.status = "connecting";
+			var self = this;
+			this.connection.status = "connecting";
 			
-			if (clout.data.connection.creatingRoom) {
-				request("create", "POST", { "username": clout.data.connection.name }, "", function(data, error) {
+			if (this.connection.creatingRoom) {
+				request("create", "POST", { "username": this.connection.name }, "", function(data, error) {
 					if (error) {
 						alert("Error: " + JSON.stringify(data));
 					} else {
 						console.log(data);
-						clout.data.connection.invitePrompt = true;
-						clout.data.connection.status = "connected";
+						self.connection.invitePrompt = true;
+						self.connection.status = "connected";
 						
-						clout.data.connection.room = data.gameid;
-						clout.data.connection.token = data.token;
-						clout.data.country.name = data.country.name;
+						self.connection.room = data.gameid;
+						self.connection.token = data.token;
+						self.country.name = data.country.name;
 						
-						clout.data.resources[0].capacity = data.country.coal.capacity;
-						clout.data.resources[0].revenue = data.country.coal.yearlyIncome;
-						clout.data.resources[0].damage = data.country.coal.yearlyDamage;
+						self.resources[0].capacity = data.country.coal.capacity;
+						self.resources[0].revenue = data.country.coal.yearlyIncome;
+						self.resources[0].damage = data.country.coal.yearlyDamage;
 						
-						clout.data.resources[1].capacity = data.country.oil.capacity;
-						clout.data.resources[1].revenue = data.country.oil.yearlyIncome;
-						clout.data.resources[1].damage = data.country.oil.yearlyDamage;
+						self.resources[1].capacity = data.country.oil.capacity;
+						self.resources[1].revenue = data.country.oil.yearlyIncome;
+						self.resources[1].damage = data.country.oil.yearlyDamage;
 						
-						clout.data.resources[2].capacity = data.country.gas.capacity;
-						clout.data.resources[2].revenue = data.country.gas.yearlyIncome;
-						clout.data.resources[2].damage = data.country.gas.yearlyDamage;
+						self.resources[2].capacity = data.country.gas.capacity;
+						self.resources[2].revenue = data.country.gas.yearlyIncome;
+						self.resources[2].damage = data.country.gas.yearlyDamage;
 						
-						clout.data.resources[3].capacity = data.country.nuclear.capacity;
-						clout.data.resources[3].revenue = data.country.nuclear.yearlyIncome;
-						clout.data.resources[3].damage = data.country.nuclear.yearlyDamage;
+						self.resources[3].capacity = data.country.nuclear.capacity;
+						self.resources[3].revenue = data.country.nuclear.yearlyIncome;
+						self.resources[3].damage = data.country.nuclear.yearlyDamage;
 						
-						clout.data.resources[4].capacity = data.country.geothermal.capacity;
-						clout.data.resources[4].revenue = data.country.geothermal.yearlyIncome;
-						clout.data.resources[4].damage = data.country.geothermal.yearlyDamage;
+						self.resources[4].capacity = data.country.geothermal.capacity;
+						self.resources[4].revenue = data.country.geothermal.yearlyIncome;
+						self.resources[4].damage = data.country.geothermal.yearlyDamage;
 						
-						clout.data.resources[5].capacity = data.country.solar.capacity;
-						clout.data.resources[5].revenue = data.country.solar.yearlyIncome;
-						clout.data.resources[5].damage = data.country.solar.yearlyDamage;
+						self.resources[5].capacity = data.country.solar.capacity;
+						self.resources[5].revenue = data.country.solar.yearlyIncome;
+						self.resources[5].damage = data.country.solar.yearlyDamage;
 						
-						clout.data.resources[6].capacity = data.country.wind.capacity;
-						clout.data.resources[6].revenue = data.country.wind.yearlyIncome;
-						clout.data.resources[6].damage = data.country.wind.yearlyDamage;
+						self.resources[6].capacity = data.country.wind.capacity;
+						self.resources[6].revenue = data.country.wind.yearlyIncome;
+						self.resources[6].damage = data.country.wind.yearlyDamage;
 						
-						clout.data.resources[7].capacity = data.country.hydroelectric.capacity;
-						clout.data.resources[7].revenue = data.country.hydroelectric.yearlyIncome;
-						clout.data.resources[7].damage = data.country.hydroelectric.yearlyDamage;
+						self.resources[7].capacity = data.country.hydroelectric.capacity;
+						self.resources[7].revenue = data.country.hydroelectric.yearlyIncome;
+						self.resources[7].damage = data.country.hydroelectric.yearlyDamage;
 						
-						clout.methods.update();
+						self.update();
+						self.rank();
 					}
 				});
 			} else {
-				request("join", "POST", { "username": clout.data.connection.name, "gameid": clout.data.connection.room }, "", function(data, error) {
+				request("join", "POST", { "username": this.connection.name, "gameid": this.connection.room }, "", function(data, error) {
 					if (error) {
 						alert("Error: " + JSON.stringify(data));
 					} else {
-						clout.data.connection.status = "connected";
+						self.connection.status = "connected";
 						
-						clout.data.connection.token = data.token;
-						clout.data.country.name = data.country.name;
+						self.connection.token = data.token;
+						self.country.name = data.country.name;
 						
-						clout.data.resources[0].capacity = data.country.coal.capacity;
-						clout.data.resources[1].capacity = data.country.oil.capacity;
-						clout.data.resources[2].capacity = data.country.gas.capacity;
-						clout.data.resources[3].capacity = data.country.nuclear.capacity;
-						clout.data.resources[4].capacity = data.country.geothermal.capacity;
-						clout.data.resources[5].capacity = data.country.solar.capacity;
-						clout.data.resources[6].capacity = data.country.wind.capacity;
-						clout.data.resources[7].capacity = data.country.hydroelectric.capacity;
+						self.resources[0].capacity = data.country.coal.capacity;
+						self.resources[0].revenue = data.country.coal.yearlyIncome;
+						self.resources[0].damage = data.country.coal.yearlyDamage;
 						
-						clout.methods.update();
+						self.resources[1].capacity = data.country.oil.capacity;
+						self.resources[1].revenue = data.country.oil.yearlyIncome;
+						self.resources[1].damage = data.country.oil.yearlyDamage;
+						
+						self.resources[2].capacity = data.country.gas.capacity;
+						self.resources[2].revenue = data.country.gas.yearlyIncome;
+						self.resources[2].damage = data.country.gas.yearlyDamage;
+						
+						self.resources[3].capacity = data.country.nuclear.capacity;
+						self.resources[3].revenue = data.country.nuclear.yearlyIncome;
+						self.resources[3].damage = data.country.nuclear.yearlyDamage;
+						
+						self.resources[4].capacity = data.country.geothermal.capacity;
+						self.resources[4].revenue = data.country.geothermal.yearlyIncome;
+						self.resources[4].damage = data.country.geothermal.yearlyDamage;
+						
+						self.resources[5].capacity = data.country.solar.capacity;
+						self.resources[5].revenue = data.country.solar.yearlyIncome;
+						self.resources[5].damage = data.country.solar.yearlyDamage;
+						
+						self.resources[6].capacity = data.country.wind.capacity;
+						self.resources[6].revenue = data.country.wind.yearlyIncome;
+						self.resources[6].damage = data.country.wind.yearlyDamage;
+						
+						self.resources[7].capacity = data.country.hydroelectric.capacity;
+						self.resources[7].revenue = data.country.hydroelectric.yearlyIncome;
+						self.resources[7].damage = data.country.hydroelectric.yearlyDamage;
+						
+						self.update();
+						self.rank();
 					}
 				});
 			}
 		},
 		start: function() {
-			clout.data.connection.invitePrompt = false;
+			this.connection.invitePrompt = false;
 			
-			request("start", "POST", {}, clout.data.connection.token, function(data, error) {
+			request("start", "POST", {}, this.connection.token, function(data, error) {
 				if (error) {
 					alert("Error: " + JSON.stringify(data));
 				} else {
@@ -226,65 +250,76 @@ var clout = {
 			});
 		},
 		update: function() {
-			request("player", "GET", {}, clout.data.connection.token, function(data, error) {
+			var self = this;
+			request("player", "GET", {}, this.connection.token, function(data, error) {
 				if (error) {
 					alert("Error: " + JSON.stringify(data));
 				} else {
-					clout.data.resources[0].cost = data.player.coal.cost;
-					clout.data.resources[1].cost = data.player.oil.cost;
-					clout.data.resources[2].cost = data.player.gas.cost;
-					clout.data.resources[3].cost = data.player.nuclear.cost;
-					clout.data.resources[4].cost = data.player.geothermal.cost;
-					clout.data.resources[5].cost = data.player.solar.cost;
-					clout.data.resources[6].cost = data.player.wind.cost;
-					clout.data.resources[7].cost = data.player.hydroelectric.cost;
+					self.resources[0].cost = data.player.coal.cost;
+					self.resources[1].cost = data.player.oil.cost;
+					self.resources[2].cost = data.player.gas.cost;
+					self.resources[3].cost = data.player.nuclear.cost;
+					self.resources[4].cost = data.player.geothermal.cost;
+					self.resources[5].cost = data.player.solar.cost;
+					self.resources[6].cost = data.player.wind.cost;
+					self.resources[7].cost = data.player.hydroelectric.cost;
 					
-					clout.data.country.damage = data.player.damage;
-					clout.data.country.demand = data.player.demand / 1000000000;
-					clout.data.country.money = data.player.money;
+					self.country.damage = data.player.damage;
+					self.country.demand = data.player.demand / 1000000000;
+					self.country.money = data.player.money;
 				}
-				setTimeout(clout.methods.update, 1000);
+				setTimeout(self.update, 1000);
+			});
+		},
+		rank: function() {
+			var self = this;
+			request("rankings/" + this.connection.room, "GET", {}, this.connection.token, function(data, error) {
+				if (error) {
+					alert("Error: " + JSON.stringify(data));
+				} else {
+					console.log(data);
+				}
+				setTimeout(self.rank, 5000);
 			});
 		},
 		buy: function(index) {
-			if (clout.data.country.money >= clout.data.resources[index].cost && (clout.data.resources[index].owned < clout.data.resources[index].capacity || clout.data.resources[index].capacity < 0)) {
-				request("purchase/" + index, "POST", {}, clout.data.connection.token, function(data, error) {
+			var self = this;
+			if (this.country.money >= this.resources[index].cost && (this.resources[index].owned < this.resources[index].capacity || this.resources[index].capacity < 0)) {
+				request("purchase/" + index, "POST", {}, this.connection.token, function(data, error) {
 					if (error) {
 						alert("Error: " + JSON.stringify(data));
 					} else {
-						console.log(data);
+						self.resources[0].operating = data.player.coal.operational;
+						self.resources[0].owned = data.player.coal.owned;
 						
-						clout.data.resources[0].operating = data.player.coal.operational;
-						clout.data.resources[0].owned = data.player.coal.owned;
+						self.resources[1].operating = data.player.oil.operational;
+						self.resources[1].owned = data.player.oil.owned;
 						
-						clout.data.resources[1].operating = data.player.oil.operational;
-						clout.data.resources[1].owned = data.player.oil.owned;
+						self.resources[2].operating = data.player.gas.operational;
+						self.resources[2].owned = data.player.gas.owned;
 						
-						clout.data.resources[2].operating = data.player.gas.operational;
-						clout.data.resources[2].owned = data.player.gas.owned;
+						self.resources[3].operating = data.player.nuclear.operational;
+						self.resources[3].owned = data.player.nuclear.owned;
 						
-						clout.data.resources[3].operating = data.player.nuclear.operational;
-						clout.data.resources[3].owned = data.player.nuclear.owned;
+						self.resources[4].operating = data.player.geothermal.operational;
+						self.resources[4].owned = data.player.geothermal.owned;
 						
-						clout.data.resources[4].operating = data.player.geothermal.operational;
-						clout.data.resources[4].owned = data.player.geothermal.owned;
+						self.resources[5].operating = data.player.solar.operational;
+						self.resources[5].owned = data.player.solar.owned;
 						
-						clout.data.resources[5].operating = data.player.solar.operational;
-						clout.data.resources[5].owned = data.player.solar.owned;
+						self.resources[6].operating = data.player.wind.operational;
+						self.resources[6].owned = data.player.wind.owned;
 						
-						clout.data.resources[6].operating = data.player.wind.operational;
-						clout.data.resources[6].owned = data.player.wind.owned;
+						self.resources[7].operating = data.player.hydroelectric.operational;
+						self.resources[7].owned = data.player.hydroelectric.owned;
 						
-						clout.data.resources[7].operating = data.player.hydroelectric.operational;
-						clout.data.resources[7].owned = data.player.hydroelectric.owned;
-						
-						clout.data.country.money = data.player.money;
+						self.country.money = data.player.money;
 					}
 				});
 			}
 		},
 		setOperational: function(index) {
-			request("operational/" + index, "POST", { "number": parseInt(document.querySelectorAll(".resources .resource")[index].querySelector(".owned input").value) }, clout.data.connection.token, function(data, error) {
+			request("operational/" + index, "POST", { "number": parseInt(document.querySelectorAll(".resources .resource")[index].querySelector(".owned input").value) }, this.connection.token, function(data, error) {
 				if (error) {
 					alert("Error: " + JSON.stringify(data));
 				} else {
@@ -302,12 +337,17 @@ var clout = {
 			} else {
 				return "$" + value;
 			}
+		},
+		formatDamage: function(value) {
+			var base = Math.floor(Math.log(Math.abs(value)) / Math.log(1000));
+			var suffix = "kmbtqQsSondUDT"[base - 1];
+			if (suffix) {
+				return Math.round(value / Math.pow(1000, base) * 100) / 100 + suffix + " dmg";
+			} else {
+				return value + " dmg";
+			}
 		}
 	}
-};
-
-document.addEventListener("DOMContentLoaded", function() {
-	vue = new Vue(clout);
 });
 
 var request = function(path, method, body, token, callback) {

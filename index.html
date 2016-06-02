@@ -3,9 +3,6 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="//cdn.jsdelivr.net/vue/1.0.24/vue.js"></script>
-		<!-- <script src="//cdn.jsdelivr.net/vue/1.0.24/vue.min.js"></script> -->
-		<script src="js/clout.js"></script>
 		<link href="css/global.css" rel="stylesheet" type="text/css">
 		<link href="css/login.css" rel="stylesheet" type="text/css">
 		<link href="css/game.css" rel="stylesheet" type="text/css">
@@ -53,9 +50,9 @@
 				</div>
 				<div class="spacer"></div>
 				<div class="environment">
-					<span class="total">{{ country.damage }}</span>
+					<span class="total">{{ country.damage | formatDamage }}</span>
 					<span class="plus">+</span>
-					<span class="yearly">{{ yearlyDamage }}/yr</span>
+					<span class="yearly">{{ yearlyDamage | formatDamage }}/yr</span>
 				</div>
 			</div>
 			<div class="energy">
@@ -87,13 +84,13 @@
 							<div class="details">
 								<div class="individual">
 									<h1>Per-Station Stats</h1>
-									<span>{{ resource.damage }}/yr</span>
+									<span>{{ resource.damage | formatDamage }}/yr</span>
 									<span>{{ resource.revenue | formatMoney }}/yr</span>
 								</div>
 								<div class="divider"></div>
 								<div class="fleet">
 									<h1>Fleet Stats</h1>
-									<span>{{ resource.damage * resource.operating }}/yr</span>
+									<span>{{ resource.damage * resource.operating | formatDamage }}/yr</span>
 									<span>{{ resource.revenue * resource.operating | formatMoney }}/yr</span>
 								</div>
 							</div>
@@ -112,5 +109,8 @@
 				</div>
 			</div>
 		</div>
+		<script src="//cdn.jsdelivr.net/vue/1.0.24/vue.js"></script>
+		<!-- <script src="//cdn.jsdelivr.net/vue/1.0.24/vue.min.js"></script> -->
+		<script src="js/clout.js"></script>
 	</body>
 </html>
