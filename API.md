@@ -271,7 +271,7 @@
 
 ### Start Game (Admin only)
 
-- `POST /api/operational/start`
+- `POST /api/start`
 
 #### Request
 

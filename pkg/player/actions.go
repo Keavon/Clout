@@ -56,7 +56,7 @@ func (p *Player) Purchase(id int) error {
 		return ErrCost
 	}
 
-	if ri.Owned >= stats.Capacity {
+	if stats.Capacity != -1 && ri.Owned >= stats.Capacity {
 		return ErrCapacity
 	}
 
