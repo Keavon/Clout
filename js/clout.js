@@ -156,13 +156,36 @@ var clout = {
 						clout.data.country.name = data.country.name;
 						
 						clout.data.resources[0].capacity = data.country.coal.capacity;
+						clout.data.resources[0].revenue = data.country.coal.yearlyIncome;
+						clout.data.resources[0].damage = data.country.coal.yearlyDamage;
+						
 						clout.data.resources[1].capacity = data.country.oil.capacity;
+						clout.data.resources[1].revenue = data.country.oil.yearlyIncome;
+						clout.data.resources[1].damage = data.country.oil.yearlyDamage;
+						
 						clout.data.resources[2].capacity = data.country.gas.capacity;
+						clout.data.resources[2].revenue = data.country.gas.yearlyIncome;
+						clout.data.resources[2].damage = data.country.gas.yearlyDamage;
+						
 						clout.data.resources[3].capacity = data.country.nuclear.capacity;
+						clout.data.resources[3].revenue = data.country.nuclear.yearlyIncome;
+						clout.data.resources[3].damage = data.country.nuclear.yearlyDamage;
+						
 						clout.data.resources[4].capacity = data.country.geothermal.capacity;
+						clout.data.resources[4].revenue = data.country.geothermal.yearlyIncome;
+						clout.data.resources[4].damage = data.country.geothermal.yearlyDamage;
+						
 						clout.data.resources[5].capacity = data.country.solar.capacity;
+						clout.data.resources[5].revenue = data.country.solar.yearlyIncome;
+						clout.data.resources[5].damage = data.country.solar.yearlyDamage;
+						
 						clout.data.resources[6].capacity = data.country.wind.capacity;
+						clout.data.resources[6].revenue = data.country.wind.yearlyIncome;
+						clout.data.resources[6].damage = data.country.wind.yearlyDamage;
+						
 						clout.data.resources[7].capacity = data.country.hydroelectric.capacity;
+						clout.data.resources[7].revenue = data.country.hydroelectric.yearlyIncome;
+						clout.data.resources[7].damage = data.country.hydroelectric.yearlyDamage;
 						
 						clout.methods.update();
 					}
