@@ -230,8 +230,6 @@ var clout = {
 				if (error) {
 					alert("Error: " + JSON.stringify(data));
 				} else {
-					console.log(data);
-					
 					clout.data.resources[0].cost = data.player.coal.cost;
 					clout.data.resources[1].cost = data.player.oil.cost;
 					clout.data.resources[2].cost = data.player.gas.cost;
@@ -325,7 +323,11 @@ var request = function(path, method, body, token, callback) {
 	
 	request.onload = function() {
 		if (request.status >= 200 && request.status < 400) {
-			callback(JSON.parse(request.responseText), false);
+			try {
+				callback(JSON.parse(request.responseText), false);
+			} catch (e) {
+				callback({}, false);
+			}
 		} else {
 			try {
 				callback(JSON.parse(request.responseText), true);
