@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 var request = function(path, method, body, token, callback) {
-	var root = "http://cloutgame.herokuapp.com/api";
+	var root = "https://cloutgame.herokuapp.com/api";
 	if (path[0] !== "/") {
 		path = "/" + path;
 	}
