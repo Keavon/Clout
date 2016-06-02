@@ -221,6 +221,12 @@
 - Wind: 6
 - Hydroelectric: 7
 
+## Game Statuses
+
+- Waiting: 0
+- Started: 1
+- Stopped: 2
+
 ## API errors
 
 Errors are returned in the format `{"errorID": <id>}`
