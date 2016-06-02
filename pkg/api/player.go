@@ -30,5 +30,10 @@ func (api API) Player(c echo.Context) error {
 		}
 	}
 
+	// TODO: Quick ugly hack, fix logic later
+	if auth.Game.Status == game.Waiting {
+		auth.Player.Demand = auth.Player.Country.InitialDemand
+	}
+
 	return c.JSON(http.StatusOK, auth)
 }
