@@ -21,57 +21,57 @@ const (
 	Hydroelectric = 7
 
 	// InitialCoalCost is the initial cost of the resource
-	InitialCoalCost = 10
+	InitialCoalCost = 1000000000
 	// InitialOilCost is the initial cost of the resource
-	InitialOilCost = 10
+	InitialOilCost = 7500000000
 	// InitialGasCost is the initial cost of the resource
-	InitialGasCost = 10
+	InitialGasCost = 1000000000
 	// InitialNuclearCost is the initial cost of the resource
-	InitialNuclearCost = 10
+	InitialNuclearCost = 5000000000
 	// InitialGeothermalCost is the initial cost of the resource
-	InitialGeothermalCost = 10
+	InitialGeothermalCost = 4000000000
 	// InitialSolarCost is the initial cost of the resource
-	InitialSolarCost = 10
+	InitialSolarCost = 3500000000
 	// InitialWindCost is the initial cost of the resource
-	InitialWindCost = 10
+	InitialWindCost = 2000000000
 	// InitialHydroelectricCost is the initial cost of the resource
-	InitialHydroelectricCost = 10
+	InitialHydroelectricCost = 2500000000
 
 	// Monetary return per (real) second of a resource
 
 	// CoalReturn is the monetary return of the resource per second
-	CoalReturn = 1000
+	CoalReturn = 5000000
 	// OilReturn is the monetary return of the resource per second
-	OilReturn = 1000
+	OilReturn = 6000000
 	// GasReturn is the monetary return of the resource per second
-	GasReturn = 1000
+	GasReturn = 7000000
 	// NuclearReturn is the monetary return of the resource per second
-	NuclearReturn = 1000
+	NuclearReturn = 15000000
 	// GeothermalReturn is the monetary return of the resource per second
-	GeothermalReturn = 2000
+	GeothermalReturn = 20000000
 	// SolarReturn is the monetary return of the resource per second
-	SolarReturn = 2000
+	SolarReturn = 30000000
 	// WindReturn is the monetary return of the resource per second
-	WindReturn = 2000
+	WindReturn = 25000000
 	// HydroelectricReturn is the monetary return of the resource per second
-	HydroelectricReturn = 2000
+	HydroelectricReturn = 22500000
 
 	// Environmental Damage per (real) second of a resource
 
 	// CoalDamage is the environmental damage of the resource per second
 	CoalDamage = 1000
 	// OilDamage is the environmental damage of the resource per second
-	OilDamage = 500
+	OilDamage = 750
 	// GasDamage is the environmental damage of the resource per second
-	GasDamage = 400
+	GasDamage = 500
 	// NuclearDamage is the environmental damage of the resource per second
-	NuclearDamage = 200
+	NuclearDamage = 100
 	// GeothermalDamage is the environmental damage of the resource per second
-	GeothermalDamage = 10
+	GeothermalDamage = 5
 	// SolarDamage is the environmental damage of the resource per second
-	SolarDamage = 10
+	SolarDamage = 0
 	// WindDamage is the environmental damage of the resource per second
-	WindDamage = 10
+	WindDamage = 0
 	// HydroelectricDamage is the environmental damage of the resource per second
 	HydroelectricDamage = 50
 )
