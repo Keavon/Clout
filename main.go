@@ -40,7 +40,7 @@ func main() {
 	// Serve static assets from files
 	e.Static("/css", "css")
 	e.Static("/js", "js")
-	e.Static("/icons", "icons")
+	e.Static("/flags", "flags")
 
 	e.Run(standard.New(":" + os.Getenv("PORT")))
 }

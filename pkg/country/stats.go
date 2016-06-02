@@ -81,7 +81,7 @@ var Countries = []Country{
 	},
 	Country{
 		ID:            2,
-		Name:          "Russia",
+		Name:          "Mother Russia",
 		InitialDemand: 1000000000,
 		InitialMoney:  40,
 		Coal: ResourceStats{

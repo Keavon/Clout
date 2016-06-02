@@ -227,7 +227,7 @@ Errors are returned in the format `{"errorID": <id>}`
 
 ### Error IDs and meanings
 
-- 0: Invalid username chose
+- 0: Invalid username chosen
 - 1: Invalid authorization token
 - 2: Invalid game ID
 - 3: No room left in game
