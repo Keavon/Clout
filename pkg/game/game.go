@@ -13,7 +13,7 @@ const (
 	// expiration is the time until the redis object will expire if unused
 	expiration = 5 * time.Minute
 	// duration is the length of an entire game
-	duration = 15 * time.Minute
+	duration = 10 * time.Minute
 )
 
 const (
