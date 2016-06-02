@@ -57,5 +57,5 @@ func (api API) Purchase(c echo.Context) error {
 		return err
 	}
 
-	return c.NoContent(http.StatusOK)
+	return c.JSON(http.StatusOK, auth)
 }
