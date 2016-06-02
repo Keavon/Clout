@@ -173,8 +173,19 @@ var clout = {
 						alert("Error: " + JSON.stringify(data));
 					} else {
 						clout.data.connection.status = "connected";
+						
 						clout.data.connection.token = data.token;
 						clout.data.country.name = data.country.name;
+						
+						clout.data.resources[0].capacity = data.country.coal.capacity;
+						clout.data.resources[1].capacity = data.country.oil.capacity;
+						clout.data.resources[2].capacity = data.country.gas.capacity;
+						clout.data.resources[3].capacity = data.country.nuclear.capacity;
+						clout.data.resources[4].capacity = data.country.geothermal.capacity;
+						clout.data.resources[5].capacity = data.country.solar.capacity;
+						clout.data.resources[6].capacity = data.country.wind.capacity;
+						clout.data.resources[7].capacity = data.country.hydroelectric.capacity;
+						
 						clout.methods.update();
 					}
 				});
