@@ -18,6 +18,8 @@ type Country struct {
 
 // ResourceStats defines the structure of country resources.
 type ResourceStats struct {
-	Capacity int     `json:"capacity"`
-	Scalar   float64 `json:"scalar"`
+	Capacity     int     `json:"capacity"`
+	Scalar       float64 `json:"scalar"`
+	YearlyDamage int     `json:"yearlyDamage"`
+	YearlyIncome int     `json:"yearlyIncome"`
 }
