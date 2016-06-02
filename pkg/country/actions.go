@@ -48,7 +48,7 @@ func (c Country) ResourceCost(id int, length time.Duration) (int, error) {
 // AvgDemand calculates average power demand between two times.
 // TODO: Add a growth constant between times
 func (c Country) AvgDemand(start time.Time, previous time.Time) int {
-	growth := 6
+	growth := 6.0
 	cd := time.Since(start).Seconds() * growth
 	pd := previous.Sub(start).Seconds() * growth
 
