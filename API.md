@@ -162,6 +162,93 @@
 #### Response
 
 - Code: `200 OK`
+- Body:
+```json
+{
+  "game": {
+    "id": "<game id>",
+    "status": 0,
+    "startTime": "0001-01-01T00:00:00Z"
+  },
+  "player": {
+    "name": "<name>",
+    "admin": true,
+    "money": 40,
+    "damage": 0,
+    "demand": 0,
+    "country": {
+      "id": 1,
+      "name": "China",
+      "initialMoney": 40,
+      "initalDemand": 1000000000,
+      "coal": {
+        "capacity": 2,
+        "scalar": 1
+      },
+      "oil": {
+        "capacity": 2,
+        "scalar": 1
+      },
+      "gas": {
+        "capacity": 2,
+        "scalar": 1
+      },
+      "nuclear": {
+        "capacity": 2,
+        "scalar": 1
+      },
+      "geothermal": {
+        "capacity": 2,
+        "scalar": 1
+      },
+      "solar": {
+        "capacity": -1,
+        "scalar": 1
+      },
+      "wind": {
+        "capacity": -1,
+        "scalar": 1
+      },
+      "hydroelectric": {
+        "capacity": 2,
+        "scalar": 1
+      }
+    },
+    "coal": {
+      "owned": 0,
+      "operational": 0
+    },
+    "oil": {
+      "owned": 0,
+      "operational": 0
+    },
+    "gas": {
+      "owned": 0,
+      "operational": 0
+    },
+    "nuclear": {
+      "owned": 0,
+      "operational": 0
+    },
+    "geothermal": {
+      "owned": 0,
+      "operational": 0
+    },
+    "solar": {
+      "owned": 0,
+      "operational": 0
+    },
+    "wind": {
+      "owned": 0,
+      "operational": 0
+    },
+    "hydroelectric": {
+      "owned": 0,
+      "operational": 0
+    }
+  }
+}
+```
 
 ### Set number of installations operational
 
