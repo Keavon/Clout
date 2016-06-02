@@ -32,8 +32,8 @@
 		</div>
 		<div v-if="connection.status === 'connected'" class="game">
 			<div class="invite" v-if="connection.invitePrompt">
-				<span>Have others join at clout.ga | Open scoreboard at clout.ga/map | Room code: {{ connection.room }}</span>
-				<div @click.prevent="connection.invitePrompt = false"><svg viewBox="0 0 16 8" fill="#fff"><polygon points="8,0 16,8 0,8"/></svg></div>
+				<span>Have others join at clout.ga with room code {{ connection.room }}</span>
+				<div @click.prevent="start"><svg viewBox="0 0 16 8" fill="#fff"><polygon points="8,0 16,8 0,8"/></svg></div>
 			</div>
 			<div class="country">
 				<div class="name">
@@ -53,7 +53,9 @@
 				</div>
 				<div class="spacer"></div>
 				<div class="environment">
-					<span>{{ damage }}</span>
+					<span class="total">{{ country.damage }}</span>
+					<span class="plus">+</span>
+					<span class="yearly">{{ yearlyDamage }}/yr</span>
 				</div>
 			</div>
 			<div class="energy">
@@ -101,7 +103,7 @@
 								<div class="owned" :style="'width: ' + (resource.capacity >= 0 ? resource.owned / resource.capacity * 100 : 100) + '%'">
 									<div class="operational" :style="'width: ' + 100 * resource.operating / resource.owned + '%'" v-if="resource.capacity >= 0"></div>
 									<span>{{ resource.owned }}</span>
-									<input type="range" min="0" :max="resource.owned" v-model="resource.operating" v-if="resource.capacity > 0 && resource.owned > 0">
+									<input type="range" min="0" :max="resource.owned" v-model="resource.operating" v-if="resource.capacity > 0 && resource.owned > 0" @change="setOperational($index)">
 								</div>
 								<div class="capacity" v-if="resource.capacity > 0">{{ resource.capacity }}</div>
 							</div>
