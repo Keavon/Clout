@@ -732,7 +732,7 @@ var Countries = []Country{
 	},
 	Country{
 		ID:            13,
-		Name:          "Tawiwan",
+		Name:          "Taiwan",
 		InitialMoney:  6000000000,
 		InitialDemand: 5000000000,
 		Coal: ResourceStats{
